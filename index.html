@@ -1,0 +1,3384 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!--
+ARDHI AI BACKEND CONFIGURATION
+Live backend: Google Apps Script Web App (bound to the ARDHI AI —
+LAND INTELLIGENCE REGISTER spreadsheet).
+
+Optional override before this page loads, e.g. if you redeploy and
+get a new /exec URL:
+<script>window.ARDHI_API_BASE = 'https://script.google.com/macros/s/YOUR_NEW_DEPLOYMENT_ID/exec';</script>
+-->
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ardhi AI | Private Land Intelligence & Professional Verification — Kenya's AI-Powered Land Intelligence Platform</title>
+<meta name="description" content="Ardhi AI — Kenya's AI-powered land intelligence and geospatial platform for land verification, surveys, subdivision, mutation, title processing, mapping and professional land due diligence.">
+<meta name="theme-color" content="#1a5c00">
+<link rel="icon" href="images/favicon-32.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="images/site.webmanifest">
+<style>
+:root{--forest:#1a3d1a;--forest-deep:#0d200d;--forest-soft:#25502a;--gold:#a9842c;--gold-bright:#c9a03f;--paper:#fbfaf4;--paper-dim:#f2efe4;--ink:#1c1e19;--ink-soft:#4a4f42;--line:rgba(26,61,26,.16);--shadow:0 18px 40px -22px rgba(13,32,13,.35);--serif:"Times New Roman",Times,Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}h1,h2,h3,h4,.serif{font-family:var(--serif)}a{color:inherit}img{max-width:100%;display:block}:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.wrap{max-width:1180px;margin:auto;padding:0 24px}
+header{position:sticky;top:0;z-index:40;background:rgba(251,250,244,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}nav.wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;gap:12px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none}.brand img{height:36px;width:36px;object-fit:contain}.brand-name{font:700 1.15rem var(--serif);color:var(--forest)}.brand-name .ai{color:var(--gold)}.nav-links{display:flex;gap:25px;list-style:none;margin:0;padding:0}.nav-links a{text-decoration:none;color:var(--forest);font-size:.9rem;font-weight:700}.nav-links a:hover{color:var(--gold)}.nav-right{display:flex;gap:9px;align-items:center}.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border-radius:3px;font-weight:800;font-size:.78rem;text-decoration:none;border:1px solid transparent;cursor:pointer}.btn-gold{background:var(--gold);color:var(--forest-deep)}.btn-gold:hover{background:var(--gold-bright)}.btn-ghost{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}.btn-outline-forest{border-color:var(--forest);color:var(--forest);background:transparent}
+.mobile-menu{display:none}.trust-strip{background:var(--forest-deep);color:#fff}.trust-strip-inner{display:flex;justify-content:center;flex-wrap:wrap;gap:18px 30px;padding:14px 24px;list-style:none;margin:0}.trust-strip-inner li{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.7)}
+.hero{background:linear-gradient(115deg,var(--forest-deep),var(--forest));color:#fff;padding:76px 0}.hero-copy{max-width:850px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:.67rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(2.5rem,6vw,4.7rem);line-height:1.02;margin:12px 0}.hero h1 em{font-style:normal;color:#dfc56e}.hero .lede{max-width:790px;color:rgba(255,255,255,.73);font-size:1rem}.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 12px}.reply-note{font-size:.72rem;color:rgba(255,255,255,.65)}.hero-trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:.7rem;color:rgba(255,255,255,.65)}.dot{width:6px;height:6px;border-radius:50%;background:var(--gold-bright);display:inline-block;margin-right:5px}
+section{border-bottom:1px solid var(--line)}.section-head{max-width:700px;margin:0 auto 38px;text-align:center}.section-head h2{font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.1;color:var(--forest);margin:8px 0 13px}.section-head p{margin:0;color:var(--ink-soft);font-size:.9rem}
+.problems{background:var(--paper-dim);padding:55px 0}.problems-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.problem-link{background:#fff;border:1px solid var(--line);padding:22px;text-decoration:none;border-radius:4px}.problem-link:hover{border-color:var(--gold);box-shadow:var(--shadow);transform:translateY(-2px)}.problem .num{color:var(--gold);font-weight:900;font-size:.78rem}.problem h3{color:var(--forest);font-size:1rem}.problem p{color:var(--ink-soft);font-size:.8rem}
+.land-check{background:#f2efe4;padding:88px 0}.land-check-shell{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}.land-check-form,.land-check-result{background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow);padding:26px}.land-check-progress{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:20px;font-size:.63rem;font-weight:900;letter-spacing:.08em;color:var(--ink-soft)}.land-check-progress span:last-child{color:var(--gold)}.land-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.land-check-grid label{display:flex;flex-direction:column;gap:6px;font-size:.68rem;font-weight:800;color:var(--forest)}.land-check-grid input,.land-check-grid select{width:100%;padding:10px;border:1px solid var(--line);border-radius:3px;background:#fff;font:inherit;color:var(--ink)}.land-check-grid label:first-child{grid-column:1/-1}.land-check-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.btn-check-reset{background:#fff;border:1px solid var(--line);color:var(--forest)}.land-check-disclaimer{font-size:.67rem;color:var(--ink-soft);background:#f8f6ed;border-left:3px solid var(--gold);padding:11px 13px;margin-bottom:0}.land-check-result{background:var(--forest-deep);color:#fff;min-height:100%;display:flex;flex-direction:column;justify-content:center}.result-empty h3{font-size:1.35rem;margin:12px 0 6px}.result-empty p{color:rgba(255,255,255,.65);font-size:.78rem}.result-orbit{width:62px;height:62px;border:1px solid rgba(201,160,63,.6);border-radius:50%;display:grid;place-items:center;color:#e2c86e;font:700 1.15rem var(--serif)}.result-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:15px}.result-mini-grid span{border:1px solid rgba(255,255,255,.12);padding:7px;font-size:.6rem;color:rgba(255,255,255,.55)}.result-report .result-top{display:flex;justify-content:space-between;gap:10px}.result-top small{color:rgba(255,255,255,.4);font-size:.57rem;letter-spacing:.1em}.result-top h3{margin:5px 0;font-size:1.2rem}.result-score{width:66px;height:66px;border-radius:50%;border:1px solid rgba(201,160,63,.55);display:flex;flex-direction:column;align-items:center;justify-content:center}.result-score strong{font-size:1.25rem}.result-score span{font-size:.52rem;color:rgba(255,255,255,.5)}.result-status{padding:10px;margin:15px 0;border-left:3px solid #c9a03f;background:rgba(255,255,255,.05);font-size:.68rem;font-weight:900}.result-status.high{border-color:#e07064}.result-status.review{border-color:#d7ae51}.result-status.low{border-color:#62c875}.result-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px}.result-meta div{padding:9px;background:rgba(255,255,255,.04)}.result-meta small{display:block;color:rgba(255,255,255,.4);font-size:.55rem;text-transform:uppercase}.result-meta b{font-size:.7rem}.result-flag{padding:8px;margin-top:6px;font-size:.66rem;background:rgba(255,255,255,.04);border-left:2px solid #e07064;color:rgba(255,255,255,.72)}.result-flag.good{border-color:#62c875}.result-next{margin-top:12px;padding:10px;background:rgba(201,160,63,.06);border:1px solid rgba(201,160,63,.18);font-size:.67rem;color:rgba(255,255,255,.68)}.result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.framework{padding:80px 0}.principles{background:var(--forest);color:#fff;border-radius:6px;padding:26px;display:grid;grid-template-columns:.8fr 1.8fr;gap:20px}.principles h3{margin:6px 0;font-size:1.35rem}.principle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.principle{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:12px}.principle b{color:#e1c36b;font-size:.6rem}.principle h4{font-size:.78rem;margin:5px 0}.principle p{font-size:.62rem;color:rgba(255,255,255,.55);margin:0}.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.matrix div{background:#fff;border:1px solid var(--line);padding:15px}.matrix strong{font-size:.75rem;color:var(--forest)}.matrix span{display:block;font-size:.63rem;color:var(--ink-soft);margin-top:4px}
+.how-it-works,.service,.services-menu,.fieldwork,.testimonials,.faq-section,.content-hub,.office-locations,.platform,.report-preview{padding:80px 0}.how-it-works{background:#fff}.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.step{border-top:3px solid var(--gold);padding:20px;background:#fff;border:1px solid var(--line)}.step-num{color:var(--gold);font-weight:900}.step h3{color:var(--forest);margin:6px 0;font-size:1.05rem}.step p{font-size:.75rem;color:var(--ink-soft)}
+.service-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#fff;box-shadow:var(--shadow);margin-bottom:18px}.service-visual{background:linear-gradient(150deg,var(--forest-deep),var(--forest));display:grid;place-items:center;min-height:290px;color:#fff}.service-visual span{font:700 1rem var(--serif);letter-spacing:.08em}.service-info{padding:38px}.service-info .tag{display:inline-block;background:var(--forest);color:#fff;padding:5px 9px;font-size:.58rem;text-transform:uppercase;font-weight:900}.service-info h3{font-size:1.55rem;color:var(--forest);margin:14px 0 8px}.price{font-size:1.9rem;color:var(--gold);font-weight:900}.price-note{font-size:.7rem;color:var(--ink-soft)}.feature-list{padding-left:18px;color:var(--ink-soft);font-size:.78rem}.turnaround{background:var(--paper-dim);padding:10px;font-size:.68rem;color:var(--ink-soft)}
+.services-menu{background:var(--paper-dim)}.menu-group{background:#fff;border:1px solid var(--line);margin-bottom:14px;border-radius:5px;overflow:hidden}.menu-group h3{margin:0;padding:16px 18px;background:var(--forest);color:#fff;font-size:.95rem}.menu-row{display:flex;justify-content:space-between;gap:15px;padding:14px 18px;border-top:1px solid var(--line)}.menu-row-name{font-weight:800;color:var(--forest);font-size:.78rem}.menu-row-note{display:block;color:var(--ink-soft);font-size:.64rem;margin-top:3px}.menu-row-right{text-align:right;min-width:150px}.menu-row-price{font-weight:900;color:var(--gold);font-size:.76rem}.menu-row-right a{display:block;color:var(--forest);font-size:.62rem;font-weight:900;text-decoration:none;margin-top:4px}.bundle-card{background:var(--forest-deep);color:#fff;padding:22px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.bundle-card h3{margin:0}.bundle-card p{font-size:.7rem;color:rgba(255,255,255,.6);max-width:600px}.bundle-price{font-weight:900;color:#e1c36b}.price-disclaimer{font-size:.68rem;color:var(--ink-soft);padding:12px 0}
+.fieldwork{background:#fff}.fieldwork-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.fieldwork-card{border:1px solid var(--line);overflow:hidden;background:#fff}.fieldwork-card img{width:100%;height:280px;object-fit:cover}.fieldwork-caption{padding:12px}.fieldwork-caption .tag{font-size:.55rem;text-transform:uppercase;color:var(--gold);font-weight:900}.fieldwork-caption h4{margin:5px 0;font-size:.85rem;color:var(--forest)}
+.testimonials{background:var(--paper-dim)}.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.testimonial-card{background:#fff;border:1px solid var(--line);padding:22px}.quote-mark{font:2rem var(--serif);color:var(--gold)}.quote-text{font:italic;font-family:var(--serif);font-size:.9rem}.testimonial-name{font-weight:900;color:var(--forest);font-size:.72rem}
+.report-preview{background:#fff}.report-preview-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;align-items:start}.report-preview-copy ul{padding-left:20px;color:var(--ink-soft);font-size:.78rem}.report-preview-note{background:var(--paper-dim);padding:12px;font-size:.67rem;color:var(--ink-soft);margin:15px 0}.report-mock{border:1px solid var(--line);padding:12px;background:#f5f3ea}.report-mock-pages{display:grid;grid-template-columns:1fr 1fr;gap:8px}.report-mock-pages img{width:100%;height:auto}
+.platform{background:var(--forest-deep);color:#fff}.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center}.platform h2{color:#fff}.platform p{color:rgba(255,255,255,.65);font-size:.82rem}.platform-card{border:1px solid rgba(255,255,255,.14);padding:24px;background:rgba(255,255,255,.04)}.platform-card h3{color:#e1c36b}.platform-card li{font-size:.7rem;color:rgba(255,255,255,.62);margin:8px 0}
+.office-locations{background:#fff}.office-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.office-card{border:1px solid var(--line);background:#fff}.office-card-map{width:100%;height:180px;border:0}.office-card-body{padding:15px}.office-card-county{font-size:.57rem;text-transform:uppercase;color:var(--gold);font-weight:900}.office-card-body h4{margin:4px 0;color:var(--forest)}.office-card-body p{font-size:.68rem;color:var(--ink-soft)}.office-card-link{font-size:.65rem;font-weight:900;color:var(--forest);text-decoration:none}
+.content-hub{background:var(--paper-dim)}.content-hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.content-card{background:#fff;border:1px solid var(--line);padding:20px}.content-card h3{color:var(--forest);font-size:1rem}.content-card p{font-size:.72rem;color:var(--ink-soft)}.content-card a{font-size:.67rem;font-weight:900;color:var(--forest)}
+.faq-section{background:#fff}.faq-list{max-width:780px;margin:auto}.faq-item{border-bottom:1px solid var(--line)}.faq-item summary{cursor:pointer;padding:17px 3px;font-weight:800;color:var(--forest);font-size:.85rem}.faq-item p{padding:0 3px 17px;margin:0;font-size:.74rem;color:var(--ink-soft)}
+footer{background:var(--forest-deep);color:rgba(255,255,255,.65);padding:50px 0 25px}.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:35px;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.1)}.footer-brand span{font:700 1.1rem var(--serif);color:#fff}.footer-top p{font-size:.75rem;max-width:430px}.footer-col h4{color:#fff;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em}.footer-col ul{list-style:none;padding:0;display:grid;gap:8px}.footer-col a{font-size:.7rem;text-decoration:none}.footer-bottom{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:20px;font-size:.62rem}.privacy-link{cursor:pointer;text-decoration:underline}
+.callback-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:1100;background:var(--forest-deep);border:1px solid rgba(255,255,255,.13);border-radius:8px;color:#fff;box-shadow:0 15px 40px rgba(0,0,0,.35);padding:11px}.callback-label{font-size:.63rem;font-weight:900;text-transform:uppercase;color:#e1c36b;margin-bottom:7px}.callback-track{position:relative;overflow:hidden;touch-action:pan-y}.callback-track:before,.callback-track:after{content:"";position:absolute;top:0;bottom:0;width:28px;z-index:2;pointer-events:none}.callback-track:before{left:0;background:linear-gradient(90deg,var(--forest-deep),transparent)}.callback-track:after{right:0;background:linear-gradient(270deg,var(--forest-deep),transparent)}.callback-track-inner{display:flex;width:max-content;gap:6px;white-space:nowrap;animation:ardhiCallbackMarquee 65s linear infinite;will-change:transform}.callback-track:hover .callback-track-inner{animation-play-state:paused}.callback-track.paused .callback-track-inner{animation-play-state:paused}.callback-chip{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);padding:7px 9px;font-size:.58rem;border-radius:99px;cursor:pointer;flex:0 0 auto}.callback-chip.active{background:var(--gold);color:var(--forest-deep)}.callback-action{display:flex;gap:7px;margin-top:8px}.callback-action input{flex:1;min-width:0;padding:9px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;border-radius:3px}.callback-request{background:var(--gold);border:0;padding:9px 13px;font-weight:900;border-radius:3px;cursor:pointer}.callback-hint{font-size:.56rem;color:rgba(255,255,255,.45);margin:6px 0 0}@keyframes ardhiCallbackMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.whatsapp-float{position:fixed;right:18px;bottom:150px;top:auto;transform:none;z-index:1301;width:54px;height:54px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 7px 20px rgba(0,0,0,.3);text-decoration:none}.whatsapp-float svg{width:28px;fill:#fff}.whatsapp-badge{position:absolute;right:50%;bottom:calc(100% + 9px);transform:translateX(50%);white-space:nowrap;max-width:calc(100vw - 92px);overflow:hidden;text-overflow:ellipsis;background:#fff;color:#1a5c00;border:1px solid #bfe6c8;padding:6px 10px;border-radius:99px;font-size:.62rem;line-height:1.15;font-weight:900;box-shadow:0 4px 14px rgba(0,0,0,.14)}
+#privacyOverlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(13,32,13,.75);overflow:auto;padding:40px 20px}.privacy-box{background:var(--paper);max-width:760px;margin:auto;padding:38px;border-radius:6px;position:relative}.privacy-close{position:absolute;right:15px;top:10px;border:0;background:none;font-size:1.6rem;cursor:pointer}.privacy-box h2{color:var(--forest)}
+@media(max-width:900px){.nav-links{display:none}.mobile-menu{display:block}.problems-grid{grid-template-columns:1fr 1fr}.land-check-shell,.report-preview-grid,.platform-grid{grid-template-columns:1fr}.steps-grid{grid-template-columns:1fr 1fr}.service-card{grid-template-columns:1fr}.fieldwork-grid{grid-template-columns:repeat(2,1fr)}.testimonials-grid,.office-grid,.content-hub-grid{grid-template-columns:1fr 1fr}.principles{grid-template-columns:1fr}.principle-grid{grid-template-columns:1fr 1fr}.matrix{grid-template-columns:1fr 1fr}.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.wrap{padding:0 17px}.hero{padding:60px 0}.hero h1{font-size:2.45rem}.land-check-grid,.steps-grid,.problems-grid,.principle-grid,.matrix,.testimonials-grid,.office-grid,.content-hub-grid,.footer-top{grid-template-columns:1fr}.land-check-grid label:first-child{grid-column:auto}.fieldwork-grid{grid-template-columns:1fr 1fr}.fieldwork-card img{height:230px}.menu-row{flex-direction:column}.menu-row-right{text-align:left}.report-mock-pages{grid-template-columns:1fr}.whatsapp-float{right:12px}.whatsapp-badge{right:0;transform:none;max-width:calc(100vw - 82px);font-size:.58rem}.callback-bar{bottom:10px}.privacy-box{padding:25px 20px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.callback-track-inner{animation:none!important}}
+
+/* ===== ARDHI AI LAND INTELLIGENCE ENGINE 2.0 ===== */
+.ai2-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.ai2-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:22px;box-shadow:var(--shadow)}.ai2-card h3{margin:0 0 7px;color:var(--forest);font-size:1.1rem}.ai2-card p{font-size:.74rem;color:var(--ink-soft)}
+.risk-bars{display:grid;gap:10px;margin-top:14px}.risk-row{display:grid;grid-template-columns:130px 1fr 45px;align-items:center;gap:8px;font-size:.66rem}.risk-track{height:8px;background:#e8e8df;border-radius:99px;overflow:hidden}.risk-fill{height:100%;border-radius:99px}.risk-low{background:#4b9b59}.risk-mid{background:#c49a35}.risk-high{background:#b33a2d}
+.evidence-table{width:100%;border-collapse:collapse;font-size:.67rem}.evidence-table th,.evidence-table td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.evidence-table th{color:var(--forest);font-size:.6rem;text-transform:uppercase;letter-spacing:.05em}.evidence-status{font-weight:900}.ev-good{color:#2d7b3b}.ev-warn{color:#a15c00}.ev-bad{color:#a82d22}.ev-neutral{color:#687067}
+.readiness{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}.readiness-ring{width:108px;height:108px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--gold) 0deg,#e5e4dc 0deg)}.readiness-ring span{width:82px;height:82px;border-radius:50%;background:#fff;display:grid;place-items:center;font:700 1.2rem var(--serif);color:var(--forest)}
+.action-list{margin:10px 0 0;padding-left:18px;font-size:.7rem;color:var(--ink-soft)}.action-list li{margin:6px 0}
+.doc-drop{border:1.5px dashed #b9bdaf;border-radius:5px;padding:24px;text-align:center;background:#faf9f2}.doc-drop strong{display:block;color:var(--forest)}.doc-drop small{display:block;color:var(--ink-soft);font-size:.64rem;margin:5px 0 12px}.doc-list{display:grid;gap:7px;margin-top:12px}.doc-item{display:flex;justify-content:space-between;gap:10px;padding:9px;border:1px solid var(--line);font-size:.65rem;background:#fff}.doc-item span:last-child{font-weight:900;color:var(--forest)}
+.map-shell{border:1px solid var(--line);background:#e9ece4;min-height:310px;position:relative;overflow:hidden}.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(26,61,26,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(26,61,26,.08) 1px,transparent 1px);background-size:35px 35px}.parcel-shape{position:absolute;left:25%;top:18%;width:48%;height:62%;border:3px solid var(--gold);background:rgba(201,160,63,.12);clip-path:polygon(8% 15%,78% 3%,96% 35%,82% 87%,35% 98%,4% 66%)}.map-label{position:absolute;background:#fff;border:1px solid var(--line);padding:6px 8px;font-size:.58rem;font-weight:900;color:var(--forest);box-shadow:0 4px 12px rgba(0,0,0,.08)}.map-label.one{left:8%;top:9%}.map-label.two{right:7%;bottom:10%}.map-legend{position:absolute;left:10px;bottom:10px;background:#fff;border:1px solid var(--line);padding:8px;font-size:.57rem}.map-note{font-size:.63rem;color:var(--ink-soft);margin-top:8px}
+.qr-box{display:flex;gap:16px;align-items:center;background:var(--paper-dim);border:1px solid var(--line);padding:15px}.qr-placeholder{width:92px;height:92px;background:repeating-conic-gradient(#1c281e 0 25%,#fff 0 50%) 50%/12px 12px;border:7px solid #fff;box-shadow:0 0 0 1px var(--line)}.qr-box strong{color:var(--forest);font-size:.75rem}.qr-box p{margin:4px 0;font-size:.63rem;color:var(--ink-soft)}
+.report-full{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);padding:30px;max-width:950px;margin:auto}.report-header{display:flex;justify-content:space-between;gap:15px;border-bottom:2px solid var(--forest);padding-bottom:15px}.report-header h3{margin:4px 0;color:var(--forest);font-size:1.4rem}.report-id{font-size:.58rem;text-align:right;color:var(--ink-soft)}.report-section{padding:17px 0;border-bottom:1px solid var(--line)}.report-section h4{margin:0 0 8px;color:var(--forest);font-size:.92rem}.report-section p,.report-section li{font-size:.68rem;color:var(--ink-soft)}.report-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.report-stat{padding:12px;background:var(--paper-dim);border:1px solid var(--line)}.report-stat small{display:block;text-transform:uppercase;font-size:.52rem;color:var(--ink-soft)}.report-stat strong{font-size:1.1rem;color:var(--forest)}
+.assistant-box{background:var(--forest-deep);color:#fff;padding:23px;border-radius:6px}.assistant-box h3{color:#e1c36b;margin-top:0}.assistant-input{display:flex;gap:8px;margin-top:12px}.assistant-input input{flex:1;min-width:0;padding:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;border-radius:3px}.assistant-answer{margin-top:13px;padding:12px;background:rgba(255,255,255,.05);border-left:3px solid var(--gold);font-size:.68rem;color:rgba(255,255,255,.72);min-height:45px}
+@media(max-width:900px){.ai2-grid{grid-template-columns:1fr}.readiness{grid-template-columns:1fr}.report-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.report-summary{grid-template-columns:1fr}.risk-row{grid-template-columns:95px 1fr 38px}.report-header{flex-direction:column}.report-id{text-align:left}.assistant-input{flex-direction:column}}
+
+
+@media print{
+ header,.trust-strip,.callback-bar,.whatsapp-float,footer,.hero-ctas,.hero-trust{display:none!important}
+ body{background:#fff}.report-full{box-shadow:none;border:0;max-width:none}.report-section{break-inside:avoid}
+}
+
+
+/* Contact action menus */
+.contact-number-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.contact-number-main{min-width:0}.contact-number-main strong{display:block;color:var(--forest);font-size:.72rem}.contact-number-main small{font-size:.61rem;color:var(--ink-soft)}
+.contact-action{position:relative;flex:0 0 auto}.contact-action>button{border:1px solid var(--line);background:#fff;color:var(--forest);padding:8px 10px;border-radius:3px;font-size:.62rem;font-weight:900;cursor:pointer}
+.contact-action-menu{position:absolute;right:0;top:calc(100% + 5px);z-index:40;min-width:150px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 25px rgba(0,0,0,.14);display:none}
+.contact-action.open .contact-action-menu{display:block}.contact-action-menu a{display:block;padding:10px 12px;font-size:.63rem;color:var(--forest);text-decoration:none;border-bottom:1px solid #eee}.contact-action-menu a:last-child{border-bottom:0}.contact-action-menu a:hover{background:var(--paper-dim)}
+/* Callback service motion */
+.service-marquee{position:relative;overflow:hidden;border:1px solid var(--line);background:#faf9f2;border-radius:4px;margin:10px 0 14px}
+.service-marquee:before,.service-marquee:after{content:"";position:absolute;z-index:2;top:0;bottom:0;width:45px;pointer-events:none;background:linear-gradient(90deg,#faf9f2,transparent)}
+.service-marquee:before{left:0}.service-marquee:after{right:0;transform:rotate(180deg)}
+.service-track{display:flex;width:max-content;animation:ardhiServices 30s linear infinite;padding:8px 0}
+.service-marquee:hover .service-track{animation-play-state:paused}
+.service-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;margin:0 4px;border:1px solid #d8d7cb;background:#fff;border-radius:99px;font-size:.58rem;font-weight:900;color:var(--forest);white-space:nowrap}
+.service-pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+@keyframes ardhiServices{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* New first-view hero */
+.hero-intelligence{position:relative;min-height:calc(100vh - 86px);display:flex;align-items:center;overflow:hidden;background:linear-gradient(115deg,#102b16 0%,#183d1e 48%,#0c2412 100%);color:#fff}
+.hero-intelligence:before{content:"";position:absolute;inset:0;opacity:.17;background-image:linear-gradient(rgba(218,193,112,.32) 1px,transparent 1px),linear-gradient(90deg,rgba(218,193,112,.32) 1px,transparent 1px);background-size:58px 58px;transform:perspective(600px) rotateX(58deg) scale(1.6);transform-origin:center bottom}
+.hero-intelligence:after{content:"";position:absolute;width:520px;height:520px;right:-150px;top:-130px;border:1px solid rgba(218,193,112,.25);border-radius:50%;box-shadow:0 0 0 65px rgba(218,193,112,.035),0 0 0 130px rgba(218,193,112,.025)}
+.hero-intelligence .wrap{position:relative;z-index:2;width:100%}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(218,193,112,.38);background:rgba(255,255,255,.05);padding:7px 11px;border-radius:99px;color:#e3ca77;font-size:.61rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+.hero-kicker span{width:7px;height:7px;border-radius:50%;background:#e3ca77;box-shadow:0 0 0 5px rgba(227,202,119,.1)}
+.hero-intelligence h1{max-width:850px;font-size:clamp(2.5rem,6vw,5.3rem);line-height:.95;margin:20px 0 20px;color:#fff;letter-spacing:-.035em}
+.hero-intelligence h1 em{color:#e0c66f;font-style:normal}
+.hero-intelligence .hero-copy{max-width:650px;color:rgba(255,255,255,.7);font-size:clamp(.8rem,1.3vw,1rem);line-height:1.75}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.hero-actions .btn{min-width:170px;text-align:center}
+.hero-proof{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px}.hero-proof div{padding-left:11px;border-left:2px solid rgba(224,198,111,.65)}.hero-proof strong{display:block;color:#fff;font-size:.75rem}.hero-proof small{color:rgba(255,255,255,.5);font-size:.58rem}
+.hero-side-panel{position:absolute;right:4%;top:50%;transform:translateY(-50%);z-index:3;width:310px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(12px);padding:20px;box-shadow:0 25px 60px rgba(0,0,0,.24)}
+.hero-side-panel .mini-label{font-size:.54rem;color:#d7bd69;text-transform:uppercase;letter-spacing:.12em;font-weight:900}.hero-side-panel h3{font-size:1.05rem;color:#fff;margin:7px 0 16px}.hero-score{display:flex;align-items:center;gap:14px}.hero-score-ring{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#d9b95f 0 38%,rgba(255,255,255,.12) 38%);position:relative}.hero-score-ring:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#17371d}.hero-score-ring b{position:relative;z-index:2;color:#fff;font-size:1rem}.hero-side-panel ul{padding:0;margin:17px 0 0;list-style:none}.hero-side-panel li{font-size:.61rem;color:rgba(255,255,255,.65);padding:8px 0;border-top:1px solid rgba(255,255,255,.09)}.hero-side-panel li strong{color:#fff}
+.hero-scroll{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:3;font-size:.52rem;color:rgba(255,255,255,.45);letter-spacing:.16em;text-transform:uppercase}
+@media(max-width:1000px){.hero-side-panel{position:relative;right:auto;top:auto;transform:none;margin:35px 0 70px;width:min(100%,360px)}.hero-intelligence{padding:75px 0 90px;min-height:auto}.hero-intelligence h1{max-width:760px}}
+@media(max-width:600px){.contact-number-row{align-items:flex-start}.hero-actions .btn{width:100%}.hero-proof{gap:14px}.hero-scroll{display:none}}
+
+
+.get-started-contact .contact-action{position:relative}.get-started-contact .contact-action-menu{min-width:235px}.get-started-contact .contact-action-menu a{white-space:nowrap}
+
+/* ===== ARDHI AI FRONTEND V2 ===== */
+[data-homepage-secondary="true"]{display:none!important}
+.hero-intelligence .wrap{padding-right:390px}
+.homepage-section-label{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid var(--line);border-radius:99px;background:rgba(255,255,255,.65);font-size:.58rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.homepage-section-label.dark{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);color:#e1c36b}
+.product-strip{padding:18px 0;background:#fff;border-bottom:1px solid var(--line)}
+.product-strip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.product-chip{display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid var(--line);text-decoration:none;background:var(--paper);border-radius:4px;transition:.2s}
+.product-chip:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:var(--shadow)}
+.product-chip b{font-size:.68rem;color:var(--forest)}
+.product-chip small{display:block;color:var(--ink-soft);font-size:.55rem;margin-top:2px}
+.product-chip-num{font:700 .95rem var(--serif);color:var(--gold)}
+.land-check{padding:78px 0}.land-check-shell{grid-template-columns:1.02fr .98fr;gap:20px}
+.land-check-grid input,.land-check-grid select{transition:border-color .2s,box-shadow .2s}
+.land-check-grid input:focus,.land-check-grid select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(169,132,44,.1);outline:0}
+.engine-showcase{padding:78px 0;background:#f7f5ec}
+.engine-showcase-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
+.engine-flow{background:var(--forest-deep);color:#fff;border-radius:6px;padding:28px}
+.engine-flow h3{font-size:1.55rem;margin:8px 0 10px}.engine-flow p{font-size:.72rem;color:rgba(255,255,255,.62)}
+.engine-flow-list{display:grid;gap:7px;margin-top:15px}
+.engine-flow-step{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035)}
+.engine-flow-step span{font:700 .72rem var(--serif);color:#e1c36b}.engine-flow-step b{font-size:.67rem}.engine-flow-step small{margin-left:auto;font-size:.54rem;color:rgba(255,255,255,.4)}
+.engine-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.engine-metric{background:#fff;border:1px solid var(--line);padding:18px;min-height:120px}
+.engine-metric small{display:block;text-transform:uppercase;font-size:.52rem;color:var(--ink-soft);letter-spacing:.08em}
+.engine-metric strong{display:block;color:var(--forest);font-size:1.55rem;margin:7px 0}.engine-metric p{font-size:.61rem;color:var(--ink-soft);margin:0}
+.engine-metric.wide{grid-column:1/-1}
+.doc-state-list{display:grid;gap:6px;margin-top:13px}
+.doc-state{display:flex;justify-content:space-between;gap:8px;padding:9px 10px;background:var(--paper-dim);border:1px solid var(--line);font-size:.61rem}
+.doc-state b{color:var(--forest)}.doc-state span{font-size:.52rem;font-weight:900;color:var(--gold)}
+.services-v2{padding:78px 0;background:#fff}
+.services-v2-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.services-v2-card{border:1px solid var(--line);padding:21px;background:var(--paper);transition:.2s}
+.services-v2-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow)}
+.services-v2-card .svc-num{font:700 .75rem var(--serif);color:var(--gold)}
+.services-v2-card h3{margin:7px 0;color:var(--forest);font-size:1rem}
+.services-v2-card p{font-size:.67rem;color:var(--ink-soft);min-height:42px}
+.services-v2-card a{font-size:.59rem;font-weight:900;color:var(--forest);text-decoration:none}
+.services-v2-price{float:right;color:var(--gold);font-size:.6rem;font-weight:900}
+.passport-v2{background:var(--forest-deep)!important;color:#fff}
+.passport-v2 .section-head h2{color:#fff}.passport-v2 .section-head p{color:rgba(255,255,255,.62)}
+.footer-cta{padding:72px 0;background:linear-gradient(115deg,var(--forest-deep),var(--forest));color:#fff;text-align:center}
+.footer-cta h2{color:#fff;font-size:clamp(2rem,4vw,3rem);margin:8px 0}
+.footer-cta p{max-width:650px;margin:0 auto 20px;color:rgba(255,255,255,.65);font-size:.78rem}
+.footer-cta-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+@media(max-width:1000px){.hero-intelligence .wrap{padding-right:24px}.product-strip-grid{grid-template-columns:1fr 1fr}.engine-showcase-grid{grid-template-columns:1fr}.services-v2-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.product-strip-grid,.engine-dashboard,.services-v2-grid{grid-template-columns:1fr}.engine-metric.wide{grid-column:auto}}
+
+
+/* =========================================================
+   ARDHI AI V3 — MOBILE-FIRST / ANDROID REFINEMENT
+   Primary target: Android phones 360–430px
+   ========================================================= */
+
+/* Prevent horizontal overflow caused by desktop grids/fixed widgets */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+img,svg,video,canvas{max-width:100%;height:auto}
+*{box-sizing:border-box}
+
+/* ---------- Mobile header ---------- */
+@media (max-width: 700px){
+  header.site-header,
+  .site-header{
+    position:sticky!important;
+    top:0;
+    z-index:1000;
+    min-height:64px!important;
+    height:64px!important;
+  }
+  .site-header .wrap{
+    min-height:64px!important;
+    height:64px!important;
+    padding:0 14px!important;
+    gap:8px!important;
+  }
+  .site-header .brand,
+  .site-header .logo{
+    min-width:0!important;
+    max-width:150px!important;
+  }
+  .site-header .brand img,
+  .site-header .logo img{
+    max-height:40px!important;
+    width:auto!important;
+  }
+  .site-header .nav,
+  .site-header nav{
+    display:none!important;
+  }
+  .site-header .header-actions{
+    margin-left:auto!important;
+    gap:6px!important;
+  }
+  .site-header .header-actions .btn,
+  .site-header .contact-btn,
+  .site-header .menu-btn{
+    min-height:40px!important;
+    padding:0 12px!important;
+    font-size:.62rem!important;
+  }
+
+  /* ---------- Global section rhythm ---------- */
+  section{
+    scroll-margin-top:74px;
+  }
+  .wrap{
+    width:100%!important;
+    max-width:100%!important;
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+  .section-head{
+    margin-bottom:22px!important;
+  }
+  .section-head h2{
+    font-size:clamp(1.65rem,7vw,2.15rem)!important;
+    line-height:1.08!important;
+    margin:6px 0 10px!important;
+  }
+  .section-head p{
+    font-size:.75rem!important;
+    line-height:1.55!important;
+  }
+  .eyebrow{
+    font-size:.55rem!important;
+    letter-spacing:.12em!important;
+  }
+
+  /* ---------- Hero: compact, deliberate, no empty viewport ---------- */
+  .hero-intelligence{
+    min-height:0!important;
+    padding:28px 0 26px!important;
+  }
+  .hero-intelligence .wrap{
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+  .hero-intelligence .hero-grid,
+  .hero-intelligence .hero-inner,
+  .hero-intelligence .wrap{
+    grid-template-columns:1fr!important;
+  }
+  .hero-intelligence .hero-copy{
+    max-width:none!important;
+  }
+  .hero-intelligence h1{
+    font-size:clamp(2.65rem,13vw,3.7rem)!important;
+    line-height:.94!important;
+    letter-spacing:-.035em!important;
+    margin:14px 0 16px!important;
+  }
+  .hero-intelligence .hero-copy>p{
+    max-width:100%!important;
+    font-size:.78rem!important;
+    line-height:1.58!important;
+    margin-bottom:18px!important;
+  }
+  .hero-intelligence .hero-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  .hero-intelligence .hero-actions .btn{
+    width:100%!important;
+    min-height:46px!important;
+  }
+  .hero-intelligence .hero-side-panel,
+  .hero-intelligence .hero-card,
+  .hero-intelligence .risk-panel{
+    position:relative!important;
+    top:auto!important;
+    right:auto!important;
+    transform:none!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:18px 0 0!important;
+  }
+  .hero-intelligence .hero-side-panel:hover{
+    transform:none!important;
+  }
+
+  /* Hero trust points: 3 compact columns instead of tall empty block */
+  .hero-intelligence .hero-proof,
+  .hero-intelligence .hero-meta,
+  .hero-intelligence .hero-stats{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:8px!important;
+    margin-top:20px!important;
+  }
+  .hero-intelligence .hero-proof>*,
+  .hero-intelligence .hero-meta>*,
+  .hero-intelligence .hero-stats>*{
+    min-width:0!important;
+  }
+
+  /* ---------- Product strip: horizontal compact cards ---------- */
+  .product-strip{
+    padding:10px 0!important;
+  }
+  .product-strip .wrap{
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+  .product-strip-grid{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:7px!important;
+  }
+  .product-chip{
+    min-height:72px!important;
+    padding:10px!important;
+    gap:7px!important;
+  }
+  .product-chip-num{
+    font-size:.78rem!important;
+  }
+  .product-chip b{
+    font-size:.57rem!important;
+    line-height:1.15!important;
+  }
+  .product-chip small{
+    font-size:.47rem!important;
+    line-height:1.2!important;
+  }
+
+  /* ---------- Land Check: one-column app layout ---------- */
+  .land-check{
+    padding:42px 0!important;
+  }
+  .land-check-shell,
+  .land-check-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+  .land-check-form,
+  .land-check-result{
+    width:100%!important;
+    min-width:0!important;
+  }
+  .land-check-form{
+    padding:18px!important;
+  }
+  .land-check-form:before{
+    font-size:.49rem!important;
+    line-height:1.3!important;
+  }
+  .land-check-grid label{
+    font-size:.62rem!important;
+  }
+  .land-check-grid input,
+  .land-check-grid select,
+  .land-check-grid textarea{
+    width:100%!important;
+    min-height:44px!important;
+    font-size:.72rem!important;
+  }
+  .land-check-result{
+    min-height:0!important;
+    padding:22px!important;
+  }
+
+  /* ---------- Engine ---------- */
+  .engine-showcase{
+    padding:46px 0!important;
+  }
+  .engine-showcase-grid{
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .engine-flow{
+    padding:20px!important;
+  }
+  .engine-flow h3{
+    font-size:1.35rem!important;
+  }
+  .engine-flow-list{
+    gap:5px!important;
+  }
+  .engine-flow-step{
+    padding:9px!important;
+  }
+  .engine-dashboard{
+    grid-template-columns:1fr 1fr!important;
+    gap:7px!important;
+  }
+  .engine-metric{
+    min-height:96px!important;
+    padding:12px!important;
+  }
+  .engine-metric strong{
+    font-size:1.08rem!important;
+    line-height:1.05!important;
+  }
+  .engine-metric p{
+    font-size:.53rem!important;
+    line-height:1.35!important;
+  }
+
+  /* ---------- Documents: no squeezed two-column layout ---------- */
+  .documents{
+    padding:46px 0!important;
+  }
+  .documents .ai2-grid,
+  .documents .documents-grid,
+  .documents .grid,
+  .documents .two-col{
+    grid-template-columns:1fr!important;
+  }
+  .doc-drop{
+    min-height:150px!important;
+  }
+  .doc-state{
+    min-height:42px!important;
+  }
+
+  /* ---------- Report ---------- */
+  #report-engine{
+    padding:46px 0!important;
+  }
+  #report-engine .report-full,
+  #report-engine .report-grid,
+  #report-engine .report-layout{
+    grid-template-columns:1fr!important;
+  }
+
+  /* ---------- Services: compact cards, eliminate huge visual voids ---------- */
+  .services-v2{
+    padding:46px 0!important;
+  }
+  .services-v2-grid{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  .services-v2-card{
+    padding:16px!important;
+  }
+  .services-v2-card p{
+    min-height:0!important;
+    margin-bottom:10px!important;
+  }
+
+  /* Existing service cards: force one column */
+  #service .service-grid,
+  #service .services-grid,
+  #service .cards,
+  #service .grid{
+    grid-template-columns:1fr!important;
+  }
+
+  /* ---------- Passport ---------- */
+  .passport-v2{
+    padding:46px 0!important;
+  }
+  .passport-v2 .report-full{
+    width:100%!important;
+  }
+
+  /* ---------- Existing large cards/images ---------- */
+  .card,.ai2-card,.feature-card,.service-card,.report-full{
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  .card img,.ai2-card img,.feature-card img,.service-card img{
+    max-height:240px!important;
+    object-fit:cover;
+  }
+
+  /* ---------- Callback bar: stop covering the page ---------- */
+  .callback-bar,
+  #callbackBar,
+  .request-callback,
+  .callback-widget{
+    left:10px!important;
+    right:10px!important;
+    bottom:10px!important;
+    width:auto!important;
+    max-width:none!important;
+    border-radius:10px!important;
+    padding:9px!important;
+    z-index:1100!important;
+  }
+  .callback-bar .services,
+  #callbackBar .services{
+    display:flex!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    gap:5px!important;
+    padding-bottom:4px!important;
+  }
+  .callback-bar .services::-webkit-scrollbar,
+  #callbackBar .services::-webkit-scrollbar{display:none}
+  .callback-bar .service-chip,
+  #callbackBar .service-chip{
+    flex:0 0 auto!important;
+    white-space:nowrap!important;
+    font-size:.49rem!important;
+    padding:6px 9px!important;
+  }
+  .callback-bar form,
+  #callbackBar form{
+    display:grid!important;
+    grid-template-columns:1fr auto!important;
+    gap:5px!important;
+  }
+  .callback-bar input,
+  #callbackBar input{
+    min-width:0!important;
+    height:39px!important;
+    font-size:.65rem!important;
+  }
+  .callback-bar button,
+  #callbackBar button{
+    height:39px!important;
+    padding:0 12px!important;
+    font-size:.54rem!important;
+  }
+
+  /* WhatsApp floating label should never obscure content */
+  .whatsapp-label,
+  .wa-label{
+    max-width:125px!important;
+    font-size:.5rem!important;
+    white-space:nowrap!important;
+  }
+
+  /* ---------- Contact / footer ---------- */
+  .footer-cta{
+    padding:50px 0!important;
+  }
+  .footer-cta h2{
+    font-size:2rem!important;
+    line-height:1.02!important;
+  }
+  .footer-cta p{
+    font-size:.7rem!important;
+    line-height:1.5!important;
+  }
+  .footer-cta-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+  }
+  .footer-cta-actions .btn{
+    width:100%!important;
+  }
+
+  /* ---------- Typography and spacing cleanup ---------- */
+  .section,.section-block,.content-section{
+    padding-top:46px!important;
+    padding-bottom:46px!important;
+  }
+  .hero-intelligence .eyebrow,
+  .homepage-section-label{
+    max-width:100%!important;
+  }
+}
+
+/* Extra-small Android screens */
+@media (max-width:380px){
+  .wrap{padding-left:14px!important;padding-right:14px!important}
+  .hero-intelligence h1{font-size:2.45rem!important}
+  .product-chip{min-height:68px!important;padding:8px!important}
+  .product-chip b{font-size:.53rem!important}
+  .product-chip small{font-size:.44rem!important}
+  .engine-dashboard{grid-template-columns:1fr!important}
+  .engine-metric.wide{grid-column:auto}
+}
+
+
+/* ==========================================================
+   ARDHI AI V4 — ANDROID-FIRST VISUAL SYSTEM
+   Primary target: 360–430px phones.
+   Goal: no clipping, no horizontal overflow, no giant voids.
+   ========================================================== */
+
+/* Universal overflow protection */
+html,body{max-width:100%;overflow-x:hidden}
+body{min-width:0}
+section,.wrap,.hero-intelligence{max-width:100%}
+img,svg,video{max-width:100%}
+
+/* Give the mobile dock its own clean visual system */
+.mobile-contact-dock{display:none}
+
+/* Desktop hero remains rich, but reserve space for the risk panel */
+@media(min-width:1001px){
+  .hero-intelligence .wrap{padding-right:390px}
+}
+
+/* -------------------- Android -------------------- */
+@media(max-width:700px){
+
+  /* HEADER */
+  header{
+    position:sticky!important;
+    top:0!important;
+    z-index:1000!important;
+  }
+  nav.wrap{
+    height:64px!important;
+    min-height:64px!important;
+    padding:8px 13px!important;
+  }
+  .brand{
+    gap:7px!important;
+    min-width:0!important;
+    flex:1 1 auto!important;
+  }
+  .brand img{
+    width:34px!important;
+    height:34px!important;
+  }
+  .brand-name{
+    font-size:1.08rem!important;
+    white-space:nowrap!important;
+  }
+  .nav-links{display:none!important}
+  .nav-right{
+    gap:6px!important;
+    flex:0 0 auto!important;
+  }
+  .nav-right>.btn{
+    min-height:39px!important;
+    padding:0 11px!important;
+    font-size:.58rem!important;
+  }
+  .mobile-menu{
+    display:inline-flex!important;
+    min-width:48px!important;
+    min-height:39px!important;
+    padding:0 10px!important;
+    font-size:.58rem!important;
+  }
+
+  /* TRUST STRIP — compact grid, not a tall paragraph */
+  .trust-strip-inner{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:0!important;
+    padding:8px 14px!important;
+  }
+  .trust-strip-inner li{
+    min-height:28px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    padding:3px 4px!important;
+    font-size:.48rem!important;
+    line-height:1.2!important;
+  }
+  .trust-strip-inner li:last-child{
+    grid-column:1/-1!important;
+  }
+
+  /* HERO — deliberately designed as a mobile composition */
+  .hero-intelligence{
+    display:block!important;
+    min-height:0!important;
+    padding:28px 0 24px!important;
+    background:
+      linear-gradient(180deg,rgba(7,25,10,.74) 0%,rgba(9,34,15,.90) 48%,#0d200d 100%),
+      url("images/surveyor-operating-rtk-gps-equipment-on--6.jpg") 76% 44%/cover no-repeat!important;
+  }
+  .hero-intelligence:before{
+    display:none!important;
+  }
+  .hero-intelligence:after{
+    width:250px!important;
+    height:250px!important;
+    right:-125px!important;
+    top:40px!important;
+    opacity:.45!important;
+  }
+  .hero-intelligence .wrap{
+    padding:0 18px!important;
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .hero-kicker{
+    max-width:100%!important;
+    white-space:normal!important;
+    padding:7px 10px!important;
+    font-size:.51rem!important;
+    line-height:1.35!important;
+  }
+  .hero-intelligence h1{
+    max-width:100%!important;
+    width:100%!important;
+    font-size:clamp(2.45rem,12.4vw,3.35rem)!important;
+    line-height:.94!important;
+    letter-spacing:-.045em!important;
+    margin:16px 0 16px!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+  }
+  .hero-desktop-break{display:none!important}
+  .hero-intelligence .hero-copy{
+    max-width:100%!important;
+    width:100%!important;
+    font-size:.76rem!important;
+    line-height:1.55!important;
+    color:rgba(255,255,255,.79)!important;
+    margin:0!important;
+  }
+
+  .hero-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    width:100%!important;
+    gap:8px!important;
+    margin:19px 0 0!important;
+  }
+  .hero-actions .btn{
+    width:100%!important;
+    min-width:0!important;
+    min-height:45px!important;
+    padding:11px 13px!important;
+    font-size:.65rem!important;
+  }
+
+  /* Proof row becomes a compact 3-column evidence strip */
+  .hero-proof{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:7px!important;
+    margin-top:19px!important;
+  }
+  .hero-proof div{
+    min-width:0!important;
+    padding:8px 6px 8px 8px!important;
+    border-left:1px solid rgba(224,198,111,.65)!important;
+  }
+  .hero-proof strong{
+    font-size:.57rem!important;
+    line-height:1.15!important;
+  }
+  .hero-proof small{
+    display:block!important;
+    margin-top:3px!important;
+    font-size:.45rem!important;
+    line-height:1.25!important;
+  }
+
+  /* RISK PANEL: full width, never positioned over the headline */
+  .hero-side-panel{
+    position:relative!important;
+    inset:auto!important;
+    transform:none!important;
+    width:calc(100% - 36px)!important;
+    max-width:none!important;
+    margin:20px 18px 0!important;
+    padding:16px!important;
+    border-radius:7px!important;
+    background:rgba(6,29,12,.82)!important;
+    box-shadow:0 18px 40px rgba(0,0,0,.28)!important;
+    backdrop-filter:blur(10px)!important;
+  }
+  .hero-side-panel .mini-label{
+    font-size:.48rem!important;
+  }
+  .hero-side-panel h3{
+    font-size:1rem!important;
+    margin:5px 0 11px!important;
+  }
+  .hero-score{
+    gap:10px!important;
+  }
+  .hero-score-ring{
+    width:64px!important;
+    height:64px!important;
+    flex:0 0 64px!important;
+  }
+  .hero-score-ring b{font-size:.9rem!important}
+  .hero-side-panel ul{
+    margin:12px 0 0!important;
+  }
+  .hero-side-panel li{
+    padding:7px 0!important;
+    font-size:.54rem!important;
+    line-height:1.35!important;
+  }
+  .hero-scroll{display:none!important}
+
+  /* Product strip — two by two, short */
+  .product-strip{
+    padding:9px 0!important;
+  }
+  .product-strip .wrap{
+    padding:0 11px!important;
+  }
+  .product-strip-grid{
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+  .product-chip{
+    min-height:67px!important;
+    padding:9px!important;
+    gap:7px!important;
+  }
+  .product-chip-num{
+    font-size:.72rem!important;
+  }
+  .product-chip b{
+    font-size:.54rem!important;
+    line-height:1.12!important;
+  }
+  .product-chip small{
+    font-size:.43rem!important;
+    line-height:1.15!important;
+  }
+
+  /* Problem tiles — four compact, equal cards */
+  .problems{
+    padding:38px 0!important;
+  }
+  .problems .wrap{padding:0 13px!important}
+  .problems-grid{
+    grid-template-columns:1fr 1fr!important;
+    gap:7px!important;
+  }
+  .problem-link{
+    padding:13px!important;
+    min-height:118px!important;
+  }
+  .problem h3{
+    font-size:.72rem!important;
+    line-height:1.2!important;
+    margin:5px 0!important;
+  }
+  .problem p{
+    font-size:.55rem!important;
+    line-height:1.35!important;
+  }
+  .problem-link-cta{
+    font-size:.5rem!important;
+  }
+
+  /* All normal sections: controlled vertical rhythm */
+  .wrap{
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+  .section-head{
+    margin-bottom:21px!important;
+  }
+  .section-head h2{
+    font-size:1.65rem!important;
+    line-height:1.08!important;
+    margin:6px 0 9px!important;
+  }
+  .section-head p{
+    font-size:.68rem!important;
+    line-height:1.5!important;
+  }
+
+  /* LAND CHECK */
+  .land-check{
+    padding:46px 0!important;
+  }
+  .land-check-shell{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+  .land-check-form,.land-check-result{
+    padding:16px!important;
+    border-radius:6px!important;
+  }
+  .land-check-grid{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+  .land-check-grid label{
+    font-size:.59rem!important;
+  }
+  .land-check-grid input,.land-check-grid select{
+    min-height:43px!important;
+    font-size:.68rem!important;
+  }
+  .land-check-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:6px!important;
+  }
+  .land-check-actions .btn{
+    width:100%!important;
+  }
+
+  /* ENGINE */
+  .engine-showcase{
+    padding:46px 0!important;
+  }
+  .engine-showcase-grid{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+  .engine-flow{padding:18px!important}
+  .engine-flow h3{font-size:1.25rem!important}
+  .engine-flow p{font-size:.62rem!important}
+  .engine-flow-step{
+    padding:8px!important;
+  }
+  .engine-flow-step b{font-size:.6rem!important}
+  .engine-flow-step small{font-size:.46rem!important}
+  .engine-dashboard{
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+  .engine-metric{
+    min-height:90px!important;
+    padding:11px!important;
+  }
+  .engine-metric strong{
+    font-size:1rem!important;
+    line-height:1.05!important;
+  }
+  .engine-metric p{
+    font-size:.49rem!important;
+    line-height:1.3!important;
+  }
+
+  /* DOCUMENTS / REPORTS / PASSPORT */
+  .documents,#report-engine,.passport-v2{
+    padding:46px 0!important;
+  }
+  .documents .ai2-grid,
+  .documents .documents-grid,
+  .documents .grid,
+  #report-engine .report-full,
+  #report-engine .report-grid,
+  #report-engine .report-layout{
+    grid-template-columns:1fr!important;
+  }
+
+  /* SERVICES */
+  .services-v2{
+    padding:46px 0!important;
+  }
+  .services-v2-grid{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+  .services-v2-card{
+    padding:15px!important;
+  }
+  .services-v2-card h3{
+    font-size:.9rem!important;
+  }
+  .services-v2-card p{
+    font-size:.6rem!important;
+    min-height:0!important;
+  }
+
+  /* Keep the moving service callback bar visible on Android/iPhone too.
+     It is compact on mobile and carries the complete service catalogue. */
+  .callback-bar{
+    display:block!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:8px!important;
+    padding:8px!important;
+    border-radius:9px!important;
+  }
+  .callback-label{
+    font-size:.5rem!important;
+    margin-bottom:5px!important;
+  }
+  .callback-track{
+    overflow:hidden!important;
+  }
+  .callback-track-inner{
+    gap:5px!important;
+    animation-duration:65s!important;
+  }
+  .callback-chip{
+    font-size:.49rem!important;
+    padding:6px 8px!important;
+  }
+  .callback-action{
+    gap:5px!important;
+    margin-top:6px!important;
+  }
+  .callback-action input{
+    height:34px!important;
+    padding:7px 8px!important;
+    font-size:.58rem!important;
+  }
+  .callback-request{
+    height:34px!important;
+    padding:0 10px!important;
+    font-size:.5rem!important;
+  }
+  .callback-hint{
+    display:none!important;
+  }
+  .whatsapp-float{
+    width:48px!important;
+    height:48px!important;
+    right:14px!important;
+    top:auto!important;
+    bottom:86px!important;
+    transform:none!important;
+    z-index:90!important;
+  }
+  .whatsapp-float svg{width:24px!important}
+
+  /* Compact bottom contact dock — never obscures hero/content */
+  .mobile-contact-dock{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    position:fixed!important;
+    left:9px!important;
+    right:9px!important;
+    bottom:8px!important;
+    z-index:85!important;
+    padding:6px!important;
+    background:rgba(8,28,11,.97)!important;
+    border:1px solid rgba(225,195,105,.28)!important;
+    border-radius:10px!important;
+    box-shadow:0 14px 35px rgba(0,0,0,.35)!important;
+    backdrop-filter:blur(10px)!important;
+  }
+  .mobile-contact-dock a{
+    min-width:0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+    padding:6px 4px!important;
+    text-decoration:none!important;
+    border-right:1px solid rgba(255,255,255,.11)!important;
+    color:#fff!important;
+  }
+  .mobile-contact-dock a:last-child{border-right:0!important}
+  .mobile-contact-dock b{
+    display:block!important;
+    color:#fff!important;
+    font-size:.49rem!important;
+    line-height:1.1!important;
+  }
+  .mobile-contact-dock small{
+    display:block!important;
+    color:rgba(255,255,255,.6)!important;
+    font-size:.43rem!important;
+    line-height:1.1!important;
+    margin-top:2px!important;
+  }
+  .dock-icon{
+    width:23px!important;
+    height:23px!important;
+    display:grid!important;
+    place-items:center!important;
+    border-radius:50%!important;
+    background:var(--gold)!important;
+    color:var(--forest-deep)!important;
+    font-size:.66rem!important;
+    font-weight:900!important;
+    flex:0 0 23px!important;
+  }
+
+  /* Give body bottom clearance so the dock never hides content */
+  body{padding-bottom:62px!important}
+
+  /* Footer */
+  .footer-cta{
+    padding:48px 0!important;
+  }
+  .footer-cta h2{
+    font-size:2rem!important;
+    line-height:1.02!important;
+  }
+  .footer-cta p{
+    font-size:.66rem!important;
+    line-height:1.45!important;
+  }
+  .footer-cta-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+  }
+  .footer-cta-actions .btn{
+    width:100%!important;
+  }
+}
+
+/* 360px phones: extra protection against clipping */
+@media(max-width:380px){
+  .wrap{padding-left:14px!important;padding-right:14px!important}
+  nav.wrap{padding-left:10px!important;padding-right:10px!important}
+  .nav-right>.btn{padding:0 8px!important}
+  .mobile-menu{padding:0 8px!important}
+  .hero-intelligence h1{font-size:2.32rem!important}
+  .hero-intelligence .hero-copy{font-size:.71rem!important}
+  .hero-proof strong{font-size:.53rem!important}
+  .hero-proof small{font-size:.42rem!important}
+  .product-chip{min-height:64px!important}
+  .product-chip b{font-size:.51rem!important}
+  .product-chip small{font-size:.41rem!important}
+  .engine-dashboard{grid-template-columns:1fr!important}
+  .engine-metric.wide{grid-column:auto!important}
+}
+
+
+
+/* ===== V6: LAND INTELLIGENCE DELIVERY + MANDATORY +254 PHONE ===== */
+.intelligence-delivery{
+  margin-top:18px;
+  padding:17px;
+  border:1px solid var(--line);
+  background:#fbfaf5;
+  border-radius:6px;
+}
+.delivery-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.delivery-head h3{
+  margin:4px 0 5px;
+  color:var(--forest);
+  font-size:1rem;
+}
+.delivery-head p{
+  margin:0;
+  color:var(--ink-soft);
+  font-size:.62rem;
+  line-height:1.45;
+}
+.delivery-required{
+  flex:0 0 auto;
+  padding:5px 7px;
+  border:1px solid #d6c287;
+  color:var(--gold);
+  font-size:.48rem;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.delivery-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.delivery-option{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  padding:11px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.delivery-option:hover,
+.delivery-option.active{
+  border-color:var(--gold);
+  background:#f8f4e8;
+}
+.delivery-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.delivery-radio{
+  width:15px;
+  height:15px;
+  flex:0 0 15px;
+  margin-top:1px;
+  border:1px solid #9b9b8d;
+  border-radius:50%;
+}
+.delivery-option.active .delivery-radio{
+  border:4px solid var(--gold);
+}
+.delivery-option b{
+  display:block;
+  color:var(--forest);
+  font-size:.62rem;
+}
+.delivery-option small{
+  display:block;
+  color:var(--ink-soft);
+  font-size:.5rem;
+  line-height:1.3;
+  margin-top:3px;
+}
+.delivery-fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:10px;
+}
+.delivery-field label{
+  display:block;
+  color:var(--forest);
+  font-size:.59rem;
+  font-weight:800;
+  margin-bottom:5px;
+}
+.delivery-field label strong{color:#a03d32}
+.delivery-field input{
+  width:100%;
+  min-height:42px;
+  border:1px solid var(--line);
+  background:#fff;
+  padding:0 11px;
+  color:var(--ink);
+  font:500 .68rem var(--sans);
+}
+.delivery-field input:focus{
+  outline:0;
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(169,132,44,.1);
+}
+.phone-prefix-wrap{
+  display:grid;
+  grid-template-columns:48px 1fr;
+}
+.phone-prefix-wrap>span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  background:var(--forest);
+  color:#fff;
+  font-size:.62rem;
+  font-weight:900;
+}
+.phone-prefix-wrap input{
+  border-left:0!important;
+}
+.delivery-field>small{
+  display:block;
+  color:var(--ink-soft);
+  font-size:.48rem;
+  line-height:1.35;
+  margin-top:4px;
+}
+.field-error{
+  color:#a03d32;
+  font-size:.5rem;
+  min-height:13px;
+  margin-top:3px;
+}
+.delivery-note{
+  display:flex;
+  gap:7px;
+  margin-top:9px;
+  padding-top:9px;
+  border-top:1px solid var(--line);
+  color:var(--ink-soft);
+  font-size:.5rem;
+  line-height:1.4;
+}
+.delivery-note>span:first-child{
+  color:#39783f;
+  font-weight:900;
+}
+.delivery-status-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:10px;
+  padding:13px;
+  border:1px solid #c9ddc7;
+  background:#edf6ec;
+}
+.delivery-status-icon{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#39783f;
+  color:#fff;
+  font-weight:900;
+}
+.delivery-status-card h4{
+  margin:3px 0;
+  color:var(--forest);
+  font-size:.8rem;
+}
+.delivery-status-card p{
+  margin:0;
+  color:#527054;
+  font-size:.56rem;
+}
+@media(max-width:700px){
+  .intelligence-delivery{
+    margin-top:13px;
+    padding:13px;
+  }
+  .delivery-head{
+    display:block;
+  }
+  .delivery-required{
+    display:inline-block;
+    margin-top:7px;
+  }
+  .delivery-options{
+    grid-template-columns:1fr;
+    gap:6px;
+  }
+  .delivery-option{
+    min-height:52px;
+    padding:9px;
+  }
+  .delivery-fields{
+    grid-template-columns:1fr;
+    gap:7px;
+  }
+  .delivery-field input,
+  .phone-prefix-wrap>span{
+    min-height:44px;
+  }
+}
+
+
+/* ===== V7: TRUE CHECK SUBMISSION WORKFLOW ===== */
+.check-client-contact{
+  margin-top:16px;
+  padding:16px;
+  border:1px solid rgba(169,132,44,.38);
+  background:#fbfaf5;
+  border-radius:6px;
+}
+.check-contact-title{
+  margin-bottom:11px;
+}
+.check-contact-title h3{
+  margin:4px 0 5px;
+  color:var(--forest);
+  font-size:1rem;
+}
+.check-contact-title p{
+  margin:0;
+  color:var(--ink-soft);
+  font-size:.62rem;
+  line-height:1.45;
+}
+.check-client-contact>label{
+  display:block;
+  margin-bottom:5px;
+  color:var(--forest);
+  font-size:.59rem;
+  font-weight:900;
+}
+.check-client-contact>label strong{color:#a03d32}
+.required-phone{
+  display:grid;
+  grid-template-columns:58px 1fr;
+}
+.required-phone>span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  background:var(--forest);
+  color:#fff;
+  font-size:.66rem;
+  font-weight:900;
+}
+.required-phone input{
+  min-width:0;
+  width:100%;
+  min-height:46px;
+  border:1px solid var(--line);
+  border-left:0;
+  background:#fff;
+  padding:0 12px;
+  color:var(--ink);
+  font:500 .72rem var(--sans);
+}
+.required-phone input:focus{
+  outline:0;
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(169,132,44,.1);
+}
+.required-phone input.invalid{
+  border-color:#a03d32;
+  box-shadow:0 0 0 3px rgba(160,61,50,.08);
+}
+#clientPhoneHelp{
+  display:block;
+  margin-top:5px;
+  color:var(--ink-soft);
+  font-size:.49rem;
+  line-height:1.35;
+}
+.check-client-contact .field-error{
+  min-height:15px;
+  margin-top:3px;
+  color:#a03d32;
+  font-size:.5rem;
+}
+.check-submission-status{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-top:14px;
+  padding:17px;
+  border:1px solid #b9d1b6;
+  background:#edf6ec;
+  border-radius:6px;
+}
+.submission-status-icon{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#39783f;
+  color:#fff;
+  font-weight:900;
+}
+.check-submission-status h3{
+  margin:4px 0;
+  color:var(--forest);
+  font-size:1rem;
+}
+.check-submission-status p{
+  margin:0;
+  color:#527054;
+  font-size:.58rem;
+  line-height:1.4;
+}
+.submission-reference{
+  display:inline-flex;
+  flex-direction:column;
+  gap:2px;
+  margin:10px 0;
+  padding:8px 10px;
+  background:#fff;
+  border:1px solid #c9ddc7;
+}
+.submission-reference span{
+  color:var(--ink-soft);
+  font-size:.48rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.submission-reference strong{
+  color:var(--forest);
+  font:700 .82rem var(--serif);
+}
+.submission-routing{
+  border-top:1px solid #c9ddc7;
+  padding-top:8px!important;
+}
+@media(max-width:700px){
+  .check-client-contact{
+    padding:13px;
+    margin-top:12px;
+  }
+  .required-phone,
+  .required-phone>span{
+    min-height:44px;
+  }
+  .check-contact-title h3{
+    font-size:.9rem;
+  }
+  .check-contact-title p{
+    font-size:.58rem;
+  }
+  .check-submission-status{
+    padding:13px;
+    gap:9px;
+  }
+  .check-submission-status h3{
+    font-size:.82rem;
+  }
+}
+
+
+/* ===== V8: REAL BACKEND CONNECTION UI ===== */
+.backend-connection-status{
+  max-width:980px;
+  margin:14px auto 0;
+  padding:9px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--forest);
+  font-size:.58rem;
+}
+.backend-connection-status small{
+  color:var(--ink-soft);
+  margin-left:4px;
+  font-size:.52rem;
+}
+.backend-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#b68a32;
+  flex:0 0 8px;
+}
+.backend-dot.online{background:#3d8b45;box-shadow:0 0 0 3px rgba(61,139,69,.12)}
+.backend-dot.offline{background:#a03d32;box-shadow:0 0 0 3px rgba(160,61,50,.1)}
+.check-client-contact .required-phone input.invalid{
+  border-color:#a03d32!important;
+}
+button:disabled{
+  opacity:.62;
+  cursor:wait!important;
+}
+@media(max-width:700px){
+  .backend-connection-status{
+    margin:10px 13px 0;
+    font-size:.52rem;
+    line-height:1.3;
+  }
+  .backend-connection-status small{
+    display:block;
+    margin:2px 0 0;
+  }
+}
+
+
+/* ARDHI AI — FLOATING CONTACT + VIRTUAL CHAT */
+.whatsapp-float{left:18px!important;right:auto!important;bottom:150px!important;top:auto!important;transform:none!important;z-index:1300!important}
+.whatsapp-float .whatsapp-badge{right:auto!important;left:58px!important;top:50%!important;transform:translateY(-50%)!important}
+.ardhi-chat-launcher{position:fixed;right:18px;bottom:150px;width:54px;height:54px;border:0;border-radius:50%;z-index:1301;display:grid;place-items:center;cursor:pointer;background:#d4af37;color:#082015;box-shadow:0 10px 28px rgba(0,0,0,.34);font-weight:900}
+.ardhi-chat-launcher svg{width:27px;height:27px;fill:currentColor}.ardhi-chat-launcher .chat-badge{position:absolute;right:0;bottom:58px;white-space:nowrap;background:#071b12;color:#f4f7f5;border:1px solid rgba(212,175,55,.35);border-radius:999px;padding:6px 9px;font-size:10px;font-weight:800;box-shadow:0 5px 18px rgba(0,0,0,.25)}
+.ardhi-chat-window{position:fixed;right:18px;bottom:215px;width:min(370px,calc(100vw - 28px));height:min(570px,calc(100vh - 220px));min-height:390px;z-index:1305;display:none;flex-direction:column;overflow:hidden;background:#071b12;color:#f6faf7;border:1px solid rgba(212,175,55,.28);border-radius:20px;box-shadow:0 24px 70px rgba(0,0,0,.42)}
+.ardhi-chat-window.open{display:flex}.ardhi-chat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 15px;background:linear-gradient(135deg,#0d3d2e,#092419);border-bottom:1px solid rgba(255,255,255,.08)}
+.ardhi-chat-brand{display:flex;align-items:center;gap:10px;min-width:0}.ardhi-chat-avatar{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#d4af37;color:#07170f;font-weight:950}
+.ardhi-chat-title{font-size:14px;font-weight:950}.ardhi-chat-status{font-size:10px;color:#a9c0b5}.ardhi-chat-close{width:36px;height:36px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;border-radius:10px;cursor:pointer}
+.ardhi-chat-body{flex:1;min-height:0;overflow-y:auto;padding:14px;background:radial-gradient(circle at 100% 0,rgba(212,175,55,.07),transparent 35%),#06150f}
+.ardhi-msg{display:flex;margin:0 0 10px}.ardhi-msg.user{justify-content:flex-end}.ardhi-msg.ai,.ardhi-msg.system{justify-content:flex-start}
+.ardhi-bubble{max-width:86%;padding:10px 12px;border-radius:15px;font-size:13px;line-height:1.45;white-space:pre-wrap}
+.ardhi-msg.user .ardhi-bubble{background:#d4af37;color:#07170f;border-bottom-right-radius:4px}.ardhi-msg.ai .ardhi-bubble{background:#102a20;border:1px solid rgba(255,255,255,.08);border-bottom-left-radius:4px}.ardhi-msg.system .ardhi-bubble{background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.18);color:#dce6e1;font-size:11px}
+.ardhi-quick{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 12px}.ardhi-quick button{border:1px solid rgba(212,175,55,.25);background:rgba(212,175,55,.06);color:#e9d98d;padding:7px 9px;border-radius:999px;font-size:10px;cursor:pointer}
+.ardhi-chat-profile{padding:12px;border-top:1px solid rgba(255,255,255,.08);background:#091e15}.ardhi-profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ardhi-chat-profile input{width:100%;min-width:0;padding:9px 10px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:#06150f;color:#fff;font-size:12px;outline:none}.ardhi-chat-profile input:focus{border-color:rgba(212,175,55,.55)}.ardhi-chat-profile .full{grid-column:1/-1}
+.ardhi-chat-composer{display:grid;grid-template-columns:1fr auto;gap:7px;padding:10px;border-top:1px solid rgba(255,255,255,.08);background:#0a2118}
+.ardhi-chat-composer textarea{width:100%;min-width:0;height:44px;max-height:100px;resize:none;padding:11px;border-radius:11px;border:1px solid rgba(255,255,255,.12);background:#06150f;color:#fff;font-size:13px;outline:none}
+.ardhi-chat-send{width:45px;height:44px;border:0;border-radius:11px;background:#d4af37;color:#07170f;font-weight:950;cursor:pointer}
+.ardhi-chat-actions{display:flex;gap:6px;padding:0 10px 9px;background:#0a2118}.ardhi-chat-actions button{flex:1;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#cddbd4;border-radius:9px;padding:7px;font-size:10px;cursor:pointer}
+.ardhi-chat-handoff{display:none;margin:0 10px 8px;padding:9px 10px;border-radius:10px;background:rgba(119,224,170,.07);border:1px solid rgba(119,224,170,.18);color:#bcefd3;font-size:10px;line-height:1.4}.ardhi-chat-handoff.show{display:block}
+@media(max-width:700px){.whatsapp-float{left:16px!important;right:auto!important;bottom:150px!important;top:auto!important;transform:none!important;width:48px!important;height:48px!important}.whatsapp-float .whatsapp-badge{left:54px!important;font-size:9px!important}.ardhi-chat-launcher{right:16px;bottom:150px;width:48px;height:48px}.ardhi-chat-launcher .chat-badge{right:0;bottom:52px;font-size:9px}.ardhi-chat-window{right:12px;bottom:210px;width:calc(100vw - 24px);height:min(560px,calc(100vh - 205px));min-height:390px;border-radius:17px}}
+@media(max-width:380px){.ardhi-chat-window{bottom:205px;height:calc(100vh - 195px);min-height:360px}.ardhi-chat-profile{padding:9px}.ardhi-chat-body{padding:11px}}
+
+</style>
+
+<style id="ardhi-v12-upgrades">
+/* ==========================================================
+   ARDHI AI V12 — EFFECTIVE UI FIXES
+   ========================================================== */
+
+/* 1. WhatsApp label: centered directly ABOVE the floating icon.
+   The previous V11 rule moved it sideways, so this deliberately
+   overrides that rule. */
+.whatsapp-float .whatsapp-badge{
+  left:50%!important;
+  right:auto!important;
+  bottom:calc(100% + 10px)!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+  white-space:nowrap!important;
+  max-width:none!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  font-size:.72rem!important;
+  padding:7px 11px!important;
+  z-index:1305!important;
+}
+
+/* Keep the two floating contact controls comfortably above the bottom bar. */
+.whatsapp-float{
+  bottom:150px!important;
+  z-index:1301!important;
+}
+
+/* 2. REAL multi-selection on the moving service strip. */
+.callback-chip{
+  position:relative!important;
+  transition:background-color .22s ease,color .22s ease,
+             border-color .22s ease,transform .22s ease,
+             box-shadow .22s ease!important;
+}
+
+.callback-chip.active,
+.callback-chip.selected{
+  background:var(--gold)!important;
+  color:var(--forest-deep)!important;
+  border-color:var(--gold)!important;
+  box-shadow:0 0 0 2px rgba(218,193,112,.22),0 7px 18px rgba(0,0,0,.18)!important;
+  animation:ardhiSelectedServiceMotion 1.8s ease-in-out infinite!important;
+}
+
+.callback-chip.active::after,
+.callback-chip.selected::after{
+  content:"✓";
+  display:inline-block;
+  margin-left:6px;
+  font-weight:900;
+}
+
+@keyframes ardhiSelectedServiceMotion{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-3px) scale(1.025);}
+}
+
+/* Selected chips remain highlighted while the whole catalogue continues moving. */
+.callback-track-inner{
+  will-change:transform;
+}
+
+/* 3. Slightly larger readable typography — NOT a dramatic enlargement. */
+body{
+  font-size:16px;
+}
+
+.section p,
+.section li,
+.content-section p,
+.content-section li,
+.card p,
+.service-card p,
+.menu-row small,
+.menu-row-right,
+.faq-item p{
+  font-size:1.02em!important;
+  line-height:1.58!important;
+}
+
+/* Services are particularly small in the current version. */
+.callback-chip{
+  font-size:.66rem!important;
+  padding:8px 11px!important;
+}
+
+/* Hero: only a small increase from the actual class used by this page. */
+.hero-intelligence h1{
+  font-size:clamp(2.62rem,6.2vw,5.45rem)!important;
+}
+
+.hero-intelligence .hero-copy{
+  font-size:clamp(.86rem,1.35vw,1.06rem)!important;
+  line-height:1.72!important;
+}
+
+.hero-kicker{
+  font-size:.64rem!important;
+}
+
+.hero-proof strong{
+  font-size:.78rem!important;
+}
+
+.hero-proof small{
+  font-size:.61rem!important;
+}
+
+@media(max-width:600px){
+  body{font-size:16px;}
+
+  .section p,
+  .section li,
+  .content-section p,
+  .content-section li,
+  .card p,
+  .service-card p,
+  .menu-row small,
+  .menu-row-right,
+  .faq-item p{
+    font-size:1em!important;
+  }
+
+  .callback-chip{
+    font-size:.62rem!important;
+    padding:8px 10px!important;
+  }
+
+  .hero-intelligence h1{
+    font-size:clamp(2.25rem,9.2vw,3.05rem)!important;
+    line-height:.98!important;
+  }
+
+  .hero-intelligence .hero-copy{
+    font-size:1rem!important;
+    line-height:1.66!important;
+  }
+
+  .whatsapp-float .whatsapp-badge{
+    font-size:.68rem!important;
+    bottom:calc(100% + 9px)!important;
+  }
+}
+</style>
+
+
+
+<style id="ardhi-v13-mobile-fix">
+/* ==========================================================
+   V13 — MOBILE FLOATING CONTACT + CALLBACK SERVICE FIX
+   ========================================================== */
+
+/* WhatsApp is intentionally on the LEFT; AI assistant stays on RIGHT. */
+.whatsapp-float{
+  left:18px!important;
+  right:auto!important;
+  bottom:150px!important;
+  width:54px!important;
+  height:54px!important;
+  z-index:1400!important;
+}
+
+.whatsapp-float .whatsapp-badge{
+  left:50%!important;
+  right:auto!important;
+  bottom:calc(100% + 10px)!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+  max-width:none!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  white-space:nowrap!important;
+  font-size:.68rem!important;
+  padding:7px 10px!important;
+  z-index:1401!important;
+}
+
+.ardhi-chat-launcher{
+  right:18px!important;
+  left:auto!important;
+  bottom:150px!important;
+  z-index:1400!important;
+}
+
+.ardhi-chat-launcher .chat-badge{
+  right:0!important;
+  bottom:calc(100% + 10px)!important;
+  white-space:nowrap!important;
+  z-index:1401!important;
+}
+
+/* The callback bar MUST visibly contain the moving services. */
+.callback-bar{
+  min-height:124px!important;
+  padding:9px 10px 8px!important;
+  bottom:8px!important;
+  z-index:1200!important;
+}
+
+.callback-label{
+  display:block!important;
+  margin-bottom:6px!important;
+}
+
+.callback-track{
+  display:block!important;
+  width:100%!important;
+  height:34px!important;
+  min-height:34px!important;
+  overflow:hidden!important;
+  visibility:visible!important;
+  opacity:1!important;
+  margin:0 0 7px!important;
+}
+
+.callback-track-inner{
+  display:flex!important;
+  align-items:center!important;
+  min-height:34px!important;
+  height:34px!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+.callback-chip{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  visibility:visible!important;
+  opacity:1!important;
+  min-height:30px!important;
+  font-size:.60rem!important;
+  line-height:1!important;
+  padding:7px 10px!important;
+}
+
+.callback-action{
+  display:flex!important;
+  min-height:36px!important;
+  margin-top:0!important;
+}
+
+.callback-action input{
+  min-height:36px!important;
+  padding:8px 9px!important;
+}
+
+.callback-request{
+  min-height:36px!important;
+  white-space:nowrap!important;
+}
+
+.callback-hint{
+  display:none!important;
+}
+
+/* Keep selected services visually obvious while the strip keeps moving. */
+.callback-chip.active,
+.callback-chip.selected{
+  background:var(--gold)!important;
+  color:var(--forest-deep)!important;
+  border-color:var(--gold)!important;
+  animation:ardhiSelectedServiceMotion 1.8s ease-in-out infinite!important;
+}
+
+@media(max-width:600px){
+  .whatsapp-float{
+    left:16px!important;
+    right:auto!important;
+    bottom:151px!important;
+  }
+
+  .ardhi-chat-launcher{
+    right:16px!important;
+    bottom:151px!important;
+  }
+
+  .callback-bar{
+    left:8px!important;
+    right:8px!important;
+    bottom:8px!important;
+    min-height:124px!important;
+  }
+
+  .callback-track{
+    height:35px!important;
+    min-height:35px!important;
+  }
+
+  .callback-track-inner{
+    height:35px!important;
+    min-height:35px!important;
+  }
+
+  .callback-chip{
+    min-height:31px!important;
+    font-size:.58rem!important;
+    padding:7px 9px!important;
+  }
+
+  .whatsapp-float .whatsapp-badge,
+  .ardhi-chat-launcher .chat-badge{
+    font-size:.64rem!important;
+    padding:6px 9px!important;
+  }
+}
+</style>
+
+
+<style id="ardhi-v14-final-mobile">
+/* ===== V14 FINAL MOBILE GEOMETRY ===== */
+
+/* Human WhatsApp label: start at the icon's left edge, extend right. */
+.whatsapp-float .whatsapp-badge{
+  left:0!important;
+  right:auto!important;
+  bottom:calc(100% + 9px)!important;
+  transform:none!important;
+  max-width:none!important;
+  width:max-content!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  font-size:.68rem!important;
+  padding:7px 10px!important;
+  z-index:1505!important;
+}
+
+/* WhatsApp and AI controls remain safely above the callback bar. */
+.whatsapp-float{
+  left:16px!important;
+  right:auto!important;
+  bottom:151px!important;
+  z-index:1500!important;
+}
+.ardhi-chat-launcher{
+  right:16px!important;
+  left:auto!important;
+  bottom:151px!important;
+  z-index:1500!important;
+}
+
+/* ---- The callback bar is a three-row component:
+       1 label
+       2 moving services
+       3 phone + request
+   Give the service viewport a real, guaranteed height. */
+.callback-bar{
+  display:block!important;
+  position:fixed!important;
+  left:8px!important;
+  right:8px!important;
+  bottom:8px!important;
+  height:126px!important;
+  min-height:126px!important;
+  max-height:126px!important;
+  padding:9px 9px 8px!important;
+  overflow:visible!important;
+  z-index:1450!important;
+}
+
+.callback-label{
+  display:block!important;
+  height:16px!important;
+  line-height:16px!important;
+  margin:0 0 5px!important;
+  overflow:visible!important;
+  white-space:nowrap!important;
+}
+
+/* The viewport itself reserves the space that was previously collapsing. */
+.callback-track{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:36px!important;
+  min-height:36px!important;
+  max-height:36px!important;
+  overflow:hidden!important;
+  margin:0 0 7px!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+/* Make the animated catalogue a real positioned track. */
+.callback-track-inner{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  display:flex!important;
+  align-items:center!important;
+  height:36px!important;
+  min-height:36px!important;
+  width:max-content!important;
+  gap:6px!important;
+  visibility:visible!important;
+  opacity:1!important;
+  animation:ardhiCallbackMarquee 65s linear infinite!important;
+  will-change:transform!important;
+}
+
+.callback-chip{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  height:31px!important;
+  min-height:31px!important;
+  white-space:nowrap!important;
+  visibility:visible!important;
+  opacity:1!important;
+  font-size:.59rem!important;
+  line-height:1!important;
+  padding:7px 10px!important;
+}
+
+/* Selected services remain highlighted while the entire catalogue moves. */
+.callback-chip.active,
+.callback-chip.selected{
+  background:var(--gold)!important;
+  color:var(--forest-deep)!important;
+  border-color:var(--gold)!important;
+  animation:ardhiSelectedServiceMotion 1.8s ease-in-out infinite!important;
+  z-index:3!important;
+}
+
+.callback-action{
+  display:flex!important;
+  width:100%!important;
+  height:38px!important;
+  min-height:38px!important;
+  margin:0!important;
+  gap:6px!important;
+}
+
+.callback-action input{
+  display:block!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:8px 9px!important;
+  font-size:.64rem!important;
+}
+
+.callback-request{
+  display:block!important;
+  flex:0 0 auto!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 12px!important;
+  white-space:nowrap!important;
+  font-size:.54rem!important;
+}
+
+.callback-hint{
+  display:none!important;
+}
+
+/* Do not let any old mobile dock sit over the callback services. */
+.mobile-contact-dock{
+  z-index:1000!important;
+}
+
+@media(max-width:600px){
+  .whatsapp-float .whatsapp-badge{
+    left:0!important;
+    transform:none!important;
+    font-size:.66rem!important;
+    padding:6px 9px!important;
+  }
+
+  .callback-bar{
+    left:8px!important;
+    right:8px!important;
+    bottom:8px!important;
+    height:126px!important;
+    min-height:126px!important;
+    max-height:126px!important;
+  }
+
+  .callback-track,
+  .callback-track-inner{
+    height:36px!important;
+    min-height:36px!important;
+    max-height:36px!important;
+  }
+
+  .callback-chip{
+    height:31px!important;
+    min-height:31px!important;
+    font-size:.58rem!important;
+    padding:7px 9px!important;
+  }
+}
+</style>
+
+
+<style id="ardhi-v15-final-fix">
+/* V15 — FINAL MOBILE CALLBACK + WHATSAPP FIX */
+
+/* WhatsApp icon remains left on mobile. */
+.whatsapp-float{
+  left:18px!important;
+  right:auto!important;
+  bottom:150px!important;
+  width:54px!important;
+  height:54px!important;
+  z-index:1400!important;
+}
+
+/* The label starts at the icon's left edge, so it can never extend off-screen. */
+.whatsapp-float .whatsapp-badge{
+  left:0!important;
+  right:auto!important;
+  bottom:calc(100% + 9px)!important;
+  top:auto!important;
+  transform:none!important;
+  max-width:none!important;
+  width:max-content!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  font-size:.67rem!important;
+  line-height:1.1!important;
+  padding:7px 10px!important;
+}
+
+/* AI assistant stays on the right, at the same vertical level. */
+.ardhi-chat-launcher{
+  right:18px!important;
+  left:auto!important;
+  bottom:150px!important;
+  z-index:1400!important;
+}
+
+/* Callback dock: reserve REAL vertical space for label + moving services + controls. */
+.callback-bar{
+  left:10px!important;
+  right:10px!important;
+  bottom:10px!important;
+  min-height:126px!important;
+  height:auto!important;
+  padding:9px 9px 8px!important;
+  z-index:1200!important;
+  overflow:visible!important;
+}
+
+.callback-label{
+  display:block!important;
+  height:17px!important;
+  line-height:17px!important;
+  margin:0 0 5px!important;
+  overflow:visible!important;
+}
+
+.callback-track{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:36px!important;
+  min-height:36px!important;
+  max-height:36px!important;
+  overflow:hidden!important;
+  visibility:visible!important;
+  opacity:1!important;
+  margin:0!important;
+}
+
+.callback-track-inner{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  display:flex!important;
+  align-items:center!important;
+  height:36px!important;
+  min-height:36px!important;
+  width:max-content!important;
+  gap:6px!important;
+  visibility:visible!important;
+  opacity:1!important;
+  animation:ardhiCallbackMarquee 65s linear infinite!important;
+}
+
+.callback-chip{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  visibility:visible!important;
+  opacity:1!important;
+  min-height:30px!important;
+  height:30px!important;
+  padding:7px 10px!important;
+  font-size:.60rem!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
+
+.callback-action{
+  display:flex!important;
+  width:100%!important;
+  height:38px!important;
+  min-height:38px!important;
+  margin:7px 0 0!important;
+  gap:7px!important;
+}
+
+.callback-action input{
+  display:block!important;
+  flex:1 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:8px 9px!important;
+}
+
+.callback-request{
+  display:block!important;
+  flex:0 0 auto!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:8px 12px!important;
+  white-space:nowrap!important;
+}
+
+.callback-hint{display:none!important;}
+
+/* Selected service: gold + check + motion. */
+.callback-chip.active,
+.callback-chip.selected{
+  background:var(--gold)!important;
+  color:var(--forest-deep)!important;
+  border-color:var(--gold)!important;
+  box-shadow:0 0 0 2px rgba(218,193,112,.22)!important;
+  animation:ardhiSelectedServiceMotion 1.8s ease-in-out infinite!important;
+}
+.callback-chip.active::after,
+.callback-chip.selected::after{
+  content:"✓"!important;
+  display:inline-block!important;
+  margin-left:6px!important;
+  font-weight:900!important;
+}
+
+@keyframes ardhiSelectedServiceMotion{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-3px) scale(1.025);}
+}
+
+@media(max-width:600px){
+  .whatsapp-float{
+    left:16px!important;
+    bottom:151px!important;
+  }
+  .whatsapp-float .whatsapp-badge{
+    left:0!important;
+    font-size:.64rem!important;
+  }
+  .ardhi-chat-launcher{
+    right:16px!important;
+    bottom:151px!important;
+  }
+  .callback-bar{
+    left:8px!important;
+    right:8px!important;
+    bottom:8px!important;
+    min-height:126px!important;
+  }
+  .callback-track{
+    height:36px!important;
+    min-height:36px!important;
+  }
+  .callback-track-inner{
+    height:36px!important;
+    min-height:36px!important;
+  }
+  .callback-chip{
+    height:30px!important;
+    min-height:30px!important;
+    font-size:.57rem!important;
+    padding:7px 9px!important;
+  }
+}
+</style>
+
+
+<style id="ardhi-platform-flow-final">
+@media(min-width:701px){
+  .nav-links{gap:21px}
+}
+@media(max-width:700px){
+  #platform-intelligence-overview .ai2-grid{grid-template-columns:1fr!important}
+  .required-phone{display:grid;grid-template-columns:48px 1fr}
+  .required-phone>span{min-height:38px}
+  .required-phone input{min-height:38px}
+}
+</style>
+
+
+<style id="ardhi-contact-dropdown-final-fix">
+/* FINAL CONTACT DROPDOWN FIX — platform-flow file only */
+.contact-action{position:relative!important;z-index:2000!important}
+.contact-action>button{position:relative!important;z-index:2001!important;cursor:pointer!important}
+.contact-action-menu{
+  position:absolute!important;
+  right:0!important;
+  top:calc(100% + 7px)!important;
+  z-index:2005!important;
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  min-width:205px!important;
+}
+.contact-action.open .contact-action-menu{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+@media(max-width:600px){
+  .get-started-contact .contact-action-menu{
+    right:50%!important;
+    transform:translateX(50%)!important;
+    min-width:220px!important;
+  }
+}
+</style>
+
+
+<style id="ardhi-physical-offices-css">
+.ardhi-physical-offices{
+  padding:78px 0;
+  background:var(--dim,#f2efe4);
+  scroll-margin-top:78px;
+}
+.ardhi-office-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.ardhi-office-card{
+  background:#fff;
+  border:1px solid var(--line,rgba(26,61,26,.15));
+  border-radius:7px;
+  padding:22px;
+  box-shadow:0 10px 30px rgba(13,32,13,.06);
+  display:flex;
+  flex-direction:column;
+  min-height:205px;
+}
+.ardhi-office-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.ardhi-office-card h3{
+  color:var(--forest,#1a3d1a);
+  margin:8px 0 3px;
+  font-size:1.45rem;
+}
+.ardhi-office-card strong{
+  color:var(--gold,#a9842c);
+  font-size:.72rem;
+}
+.ardhi-office-card p{
+  color:var(--muted,#596052);
+  font-size:.76rem;
+  margin:10px 0 16px;
+}
+.ardhi-office-pin{
+  color:var(--gold,#a9842c);
+  font-size:.8rem;
+}
+.ardhi-office-map{
+  margin-top:auto;
+  color:var(--forest,#1a3d1a);
+  font-size:.72rem;
+  font-weight:900;
+  text-decoration:none;
+}
+.ardhi-office-map:hover{color:var(--gold,#a9842c)}
+@media(max-width:900px){
+  .ardhi-office-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .ardhi-physical-offices{padding:55px 0}
+  .ardhi-office-grid{grid-template-columns:1fr}
+}
+</style>
+
+
+<style id="ardhi-service-visual-removal">
+/* Service cards: remove large decorative/visual panels to reduce mobile length. */
+.service-card{
+  grid-template-columns:1fr!important;
+}
+.service-card .service-info{
+  width:100%;
+}
+@media(max-width:700px){
+  .service-card{
+    margin-bottom:14px!important;
+  }
+  .service-card .service-info{
+    padding:24px!important;
+  }
+  .service-card .price{
+    font-size:1.65rem!important;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<header>
+<nav class="wrap">
+<a class="brand" href="#"><img src="images/logo-header.jpg" alt="Ardhi AI" onerror="this.style.display='none'"><span class="brand-name">ARDHI <span class="ai">AI</span></span></a>
+<ul class="nav-links">
+<li><a href="#platform">Platform</a></li>
+<li><a href="#services-menu">Solutions</a></li>
+<li><a href="#how-it-works">How It Works</a></li>
+<li><a href="#report-engine">Reports</a></li>
+<li><a href="#content-hub">Resources</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<div class="nav-right"><a class="btn btn-gold" href="#contact">Contact Us</a><button class="mobile-menu btn btn-outline-forest" onclick="document.getElementById('mobileNav').showModal()">Menu</button></div>
+</nav>
+<dialog id="mobileNav"><div style="padding:25px">
+<button onclick="this.closest('dialog').close()" style="float:right">×</button>
+<h3>ARDHI AI</h3>
+<p><a href="#platform">Platform</a></p>
+<p><a href="#services-menu">Solutions</a></p>
+<p><a href="#how-it-works">How It Works</a></p>
+<p><a href="#report-engine">Reports</a></p>
+<p><a href="#content-hub">Resources</a></p>
+<p><a href="#professional-boundaries">About Ardhi AI</a></p>
+<hr>
+<p><a class="btn btn-gold" href="#land-check" onclick="this.closest('dialog').close()">Start a Land Check →</a></p>
+<p><a href="#contact">Contact</a></p>
+</div></dialog>
+</header>
+
+<div class="trust-strip"><ul class="trust-strip-inner"><li>✓ Certified surveyors</li><li>✓ GPS/GIS-grade accuracy</li><li>✓ Evidence-led screening</li><li>✓ Professional reports</li><li>✓ Serving Kenya</li></ul></div>
+
+
+<section class="hero-intelligence" id="new-first-view">
+<div class="wrap">
+<span class="hero-kicker"><span></span> Private Land Intelligence &amp; Professional Verification</span>
+<h1>Understand the land.<br class="hero-desktop-break"><em>Verify what matters.</em></h1>
+<p class="hero-copy">Ardhi AI turns land documents, site evidence and professional verification into a clear intelligence picture — helping you identify what is known, what is missing, what needs checking and what should happen next.</p>
+<div class="hero-actions">
+<a class="btn btn-gold" href="#land-check">Generate Land Intelligence Check →</a>
+<a class="btn btn-outline-light" href="#field-verification">See How Verification Works</a>
+</div>
+<div class="hero-proof">
+<div><strong>Evidence-led</strong><small>Traceable findings</small></div>
+<div><strong>Professional</strong><small>Field verification</small></div>
+<div><strong>Private platform</strong><small>Not a government system</small></div>
+</div>
+</div>
+<div class="hero-side-panel">
+<span class="mini-label">Illustrative intelligence view</span>
+<h3>Land Risk Profile</h3>
+<div class="hero-score"><div class="hero-score-ring"><b>38</b></div><div><strong style="color:#fff">Preliminary Risk</strong><br><small style="color:rgba(255,255,255,.5)">Evidence confidence: 74/100</small></div></div>
+<ul><li><strong>Boundary</strong> — verification required</li><li><strong>Registry evidence</strong> — review required</li><li><strong>Acreage</strong> — consistent</li><li><strong>Next step</strong> — professional field check</li></ul>
+</div>
+<div class="hero-scroll">Explore Ardhi AI ↓</div>
+</section><section class="platform" id="platform"><div class="wrap"><div class="platform-grid"><div><span class="eyebrow">The platform</span><h2>Ardhi AI Land Passport™</h2><p>A persistent property profile designed to connect documents, survey evidence, verification dates, risk assessments, professional reports and future property-watch events.</p><p><strong>Evidence → Verification → History</strong></p></div><div class="platform-card"><h3>Property intelligence record</h3><ul><li>Report ID and property reference</li><li>Evidence confidence</li><li>Last verification date</li><li>Outstanding verification actions</li><li>Professional reports and supporting evidence</li><li>Future monitoring / property-watch capability</li></ul></div></div></div></section>
+<section id="platform-intelligence-overview" style="padding:68px 0;background:#fff">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">The platform</span><h2>One platform. Multiple layers of land intelligence.</h2><p>Ardhi AI connects document evidence, spatial evidence and professional verification into one intelligence workflow.</p></div>
+<div class="ai2-grid" style="grid-template-columns:repeat(3,1fr)">
+<div class="ai2-card"><span class="eyebrow">01</span><h3>Document Intelligence</h3><p>Titles, plans, mutations, agreements and supporting documents are organised into an evidence record.</p></div>
+<div class="ai2-card"><span class="eyebrow">02</span><h3>Spatial Intelligence</h3><p>Survey data, coordinates, boundaries, topography and GIS evidence bring the parcel into a spatial picture.</p></div>
+<div class="ai2-card"><span class="eyebrow">03</span><h3>Professional Verification</h3><p>Fieldwork, authoritative-channel checks and professional judgement resolve what AI cannot establish alone.</p></div>
+</div>
+<div class="core" style="margin-top:16px"><b>ARDHI AI → LAND INTELLIGENCE → REPORT</b><small>Collect · Screen · Assess · Verify · Act</small></div>
+</div>
+</section>
+<section class="land-check" id="land-check"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Flagship intelligence tool</span><h2>Ardhi AI Land Intelligence Check™</h2><p><strong>Evidence → Legal Framework → Risk → Action.</strong> This is preliminary screening. It does not access government registry systems and does not replace official searches, professional surveys or legal advice.</p></div>
+<div class="land-check-shell">
+<div class="land-check-form">
+<div class="land-check-progress"><span>METHOD KE-LIC-1.0</span><span id="landCheckProgress">0% complete</span></div>
+<div class="land-check-grid">
+<label><span>Parcel / LR / Title <small>(optional)</small></span><input id="lcParcel" placeholder="e.g. LR 12345"></label>
+<label><span>County</span><select id="lcCounty"><option value="">Select county</option><option>Kirinyaga</option><option>Kiambu</option><option>Nairobi</option><option>Murang'a</option><option>Nyeri</option><option>Embu</option><option>Machakos</option><option>Nakuru</option><option>Mombasa</option><option>Kajiado</option><option>Other county</option></select></label>
+<label><span>Why are you checking the land?</span><select id="lcPurpose"><option value="">Select purpose</option><option value="buy">Buying land</option><option value="own">Already own it</option><option value="subdivide">Subdivision / mutation</option><option value="dispute">Boundary / dispute</option><option value="develop">Building / development</option><option value="estate">Estate / succession</option><option value="finance">Finance / security</option></select></label>
+<label><span>Do the acreage figures agree?</span><select id="lcAcreage"><option value="">Select</option><option value="yes">Yes — they agree</option><option value="unknown">Not independently confirmed</option><option value="no">No — they differ</option></select></label>
+<label><span>Do physical boundaries / beacons agree?</span><select id="lcBoundary"><option value="">Select</option><option value="surveyed">Professionally verified</option><option value="documents">Documents only; ground not checked</option><option value="unknown">Not checked</option><option value="conflict">Ground / documents conflict</option></select></label>
+<label><span>Has an authoritative registry evidence obtained through the defined verification assignment been done?</span><select id="lcRegistry"><option value="">Select</option><option value="verified">Yes — recent search available</option><option value="old">Yes — but it may be old</option><option value="none">No</option></select></label>
+<label><span>Registered interests / dispute?</span><select id="lcEncumbrance"><option value="">Select</option><option value="clear">None identified in current evidence</option><option value="unknown">Unknown</option><option value="adverse">Yes / possible</option></select></label>
+<label><span>Is seller / registered-owner identity clear?</span><select id="lcOwner"><option value="">Select</option><option value="matched">Yes — matches evidence</option><option value="unclear">Not independently confirmed</option><option value="conflict">No / inconsistent</option></select></label>
+<label><span>Planning / land category</span><select id="lcPlanning"><option value="">Select</option><option value="verified">Relevant status verified</option><option value="partial">Partially established</option><option value="unknown">Not established</option><option value="concern">Potential concern</option></select></label>
+<label><span>Matrimonial / third-party interest</span><select id="lcMatrimonial"><option value="">Select</option><option value="none">None indicated / not applicable</option><option value="verified">Relevant interest verified</option><option value="unknown">Not established</option><option value="concern">Potential competing interest</option></select></label>
+</div>
+
+
+<div class="check-client-contact" id="checkClientContact">
+  <div class="check-contact-title">
+    <span class="eyebrow">Required for successful submission</span>
+    <h3>Client mobile number</h3>
+    <p>This number identifies the Land Intelligence Check and allows Ardhi AI to follow up on the submitted matter.</p>
+  </div>
+  <label for="clientPhone">Mobile number <strong>*</strong></label>
+  <div class="required-phone">
+    <span>+254</span>
+    <input id="clientPhone" name="client_phone" type="tel"
+           inputmode="numeric" autocomplete="tel"
+           placeholder="7XXXXXXXX"
+           maxlength="9" required
+           pattern="[17][0-9]{8}"
+           aria-describedby="clientPhoneHelp clientPhoneError"
+           title="Enter a valid Kenyan mobile number after +254, for example 712345678">
+  </div>
+  <small id="clientPhoneHelp">Mandatory. Enter the 9 digits after +254 — for example <b>712345678</b>.</small>
+  <div class="field-error" id="clientPhoneError" aria-live="polite"></div>
+</div>
+
+<div class="land-check-actions"><button class="btn btn-gold" id="runLandCheck" type="button">Generate Preliminary Assessment →</button><button class="btn btn-check-reset" id="resetLandCheck" type="button">Reset</button></div>
+<p class="land-check-disclaimer"><strong>Important:</strong> A lower preliminary risk indicator is not a clean-title guarantee. The tool is deliberately conservative: material contradictions or unresolved evidence can trigger a transaction hold.</p>
+</div>
+<div class="land-check-result" id="landCheckResult"><div class="result-empty"><div class="result-orbit">AI</div><h3>Evidence first. Conclusions second.</h3><p>Complete the screening. Ardhi AI will distinguish unresolved evidence gaps from identified risk and recommend the next professional action.</p><div class="result-mini-grid"><span>Risk</span><span>Evidence confidence</span><span>Legal framework</span><span>Required action</span></div></div></div>
+</div></div>
+<div>
+    <span class="eyebrow">Delivery status</span>
+    <h4>Land Intelligence Check prepared</h4>
+    <p id="deliveryStatusText">Your result is queued for delivery.</p>
+  </div>
+</div>
+
+<div class="check-submission-status" id="checkSubmissionStatus" hidden aria-live="polite">
+  <div class="submission-status-icon">✓</div>
+  <div>
+    <span class="eyebrow">Submission received</span>
+    <h3>Land Intelligence Check generated successfully</h3>
+    <p>Your request has been recorded by Ardhi AI.</p>
+    <div class="submission-reference">
+      <span>Check reference</span>
+      <strong id="generatedCheckReference">AI-KE-260823-0001</strong>
+    </div>
+    <p class="submission-routing">The complete check submission has been sent to the Ardhi AI backend for processing and internal notification.</p>
+  </div>
+</div>
+
+
+<div class="backend-connection-status" id="backendConnectionStatus" aria-live="polite">
+  <span class="backend-dot"></span>
+  <span><b>Ardhi AI intelligence service</b> <small id="backendStatusText">Checking connection…</small></span>
+</div>
+
+</section><section class="how-it-works" id="how-it-works"><div class="wrap"><div class="section-head"><span class="eyebrow">The process</span><h2>From request to certified report</h2><p>Every job follows a transparent workflow from the first WhatsApp message to final handover.</p></div><div class="steps-grid"><div class="step"><span class="step-num">01</span><h3>Request</h3><p>Tell us your location and what you need. We confirm scope and quote.</p></div><div class="step"><span class="step-num">02</span><h3>Site Visit</h3><p>A professional surveyor captures accurate field evidence using appropriate equipment.</p></div><div class="step"><span class="step-num">03</span><h3>Verification</h3><p>Documents and field evidence are reviewed against the required professional checks.</p></div><div class="step"><span class="step-num">04</span><h3>Handover</h3><p>You receive the appropriate report, plans, coordinates or documentation for your case.</p></div></div></div></section><section class="engine-showcase" id="intelligence-engine">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Signature methodology</span><h2>The Ardhi AI Intelligence Engine</h2><p>Evidence is organised, the relevant framework is applied, verification gaps are identified, risk is explained and action is recommended.</p></div>
+<div class="engine-showcase-grid">
+<div class="engine-flow"><span class="homepage-section-label dark">Evidence-led architecture</span><h3>Evidence → Action</h3><p>Ardhi AI is designed to expose uncertainty instead of hiding it behind a single score.</p>
+<div class="engine-flow-list">
+<div class="engine-flow-step"><span>01</span><b>Evidence</b><small>Collect</small></div>
+<div class="engine-flow-step"><span>02</span><b>Framework</b><small>Map</small></div>
+<div class="engine-flow-step"><span>03</span><b>Verification</b><small>Check</small></div>
+<div class="engine-flow-step"><span>04</span><b>Risk</b><small>Assess</small></div>
+<div class="engine-flow-step"><span>05</span><b>Action</b><small>Recommend</small></div>
+</div></div>
+<div class="engine-dashboard">
+<div class="engine-metric"><small>Land Risk</small><strong>47/100</strong><p>Illustrative preliminary risk indicator.</p></div>
+<div class="engine-metric"><small>Evidence Confidence</small><strong>68/100</strong><p>How much required evidence is established.</p></div>
+<div class="engine-metric"><small>Transaction Readiness</small><strong>REVIEW</strong><p>Readiness is not a clean-title guarantee.</p></div>
+<div class="engine-metric"><small>Material Issues</small><strong>03</strong><p>Outstanding verification actions.</p></div>
+<div class="engine-metric wide"><small>Core principle</small><strong>Material contradictions are escalated.</strong><p>The system should never average away a serious unresolved evidence conflict.</p></div>
+</div></div></div></section><section class="documents" id="documents" style="padding:80px 0;background:#fff">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Document Intelligence</span><h2>Build the evidence record</h2><p>Upload land documents in the future-facing workflow and Ardhi AI can structure the information for comparison. Uploading a document here does not mean the document is authenticated.</p></div>
+<div class="ai2-grid">
+<div class="ai2-card"><h3>Document workspace</h3><div class="doc-drop"><strong>Drop or select a document</strong><small>Title deed • search certificate • mutation • RIM • survey plan • lease • supporting correspondence</small><button class="btn btn-outline-forest" type="button" onclick="document.getElementById('docInput').click()">Select Document</button><input id="docInput" type="file" hidden multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"></div><div class="doc-list" id="docList"><div class="doc-item"><span>No documents added yet</span><span>—</span></div></div>
+<div class="doc-state-list">
+<div class="doc-state"><b>REPORTED</b><span>Client supplied</span></div>
+<div class="doc-state"><b>EXTRACTED</b><span>Information structured</span></div>
+<div class="doc-state"><b>REQUIRES VERIFICATION</b><span>Professional check</span></div>
+</div></div>
+<div class="ai2-card"><h3>Cross-check logic</h3><p>Once document intelligence is connected to real extraction services, Ardhi AI can compare structured values across documents instead of relying on visual inspection alone.</p><div class="evidence-table"><div class="doc-item"><span>Title area</span><span>0.50 ha</span></div><div class="doc-item"><span>Mutation area</span><span>0.47 ha</span></div><div class="doc-item"><span>Survey evidence</span><span>0.47 ha</span></div><div class="result-flag">⚠ AREA INCONSISTENCY DETECTED</div></div><p class="land-check-disclaimer">Prototype values above are illustrative. No uploaded document is being authenticated by this front-end page.</p></div>
+</div>
+</div>
+</section><section style="padding:80px 0;background:#f7f5ec" id="report-engine">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Professional deliverable</span><h2>Land Intelligence Report Engine</h2><p>The website can turn an assessment into a structured professional report. Final certification remains subject to the appropriate qualified professional and authoritative evidence.</p></div>
+<div class="report-full">
+<div class="report-header"><div><span class="eyebrow">ARDHI AI</span><h3>PRELIMINARY LAND INTELLIGENCE REPORT</h3></div><div class="report-id">REPORT ID<br><strong>ARDHI-KE-2026-00481</strong><br>23 August 2026</div></div>
+<div class="report-section"><div class="report-summary"><div class="report-stat"><small>Risk indicator</small><strong>47/100</strong></div><div class="report-stat"><small>Evidence confidence</small><strong>68/100</strong></div><div class="report-stat"><small>Readiness</small><strong>Review</strong></div></div></div>
+<div class="report-section"><h4>Executive assessment</h4><p>The preliminary screen identifies evidence gaps requiring further professional verification. It does not establish that the property is safe or unsafe for transaction.</p></div>
+<div class="report-section"><h4>Material findings</h4><ul><li>Current registry evidence required.</li><li>Boundary / beacon evidence requires professional field verification.</li><li>Planning status should be confirmed for the stated transaction purpose.</li></ul></div>
+<div class="report-section"><h4>Legal-framework screening</h4><p>Registration, land rights, planning, property rights and applicable third-party interests are screened against the relevant Kenyan legal/professional domains.</p></div>
+<div class="report-section"><h4>Limitations</h4><p>This preliminary report is not an authoritative registry evidence obtained through the defined verification assignment, title authentication, valuation, legal opinion, survey certificate or development approval.</p></div>
+<div class="qr-box"><div class="qr-placeholder"></div><div><strong>Verify report ID</strong><p>Future connected verification service.</p></div></div>
+<div style="margin-top:15px"><button class="btn btn-gold" id="printReport" type="button">Print / Save Report →</button><a class="btn btn-outline-forest" href="#land-check">Run a real assessment</a></div>
+</div>
+</div>
+</section><section class="services-v2" id="services-grid">
+<div class="wrap"><div class="section-head"><span class="eyebrow">Professional services</span><h2>From intelligence to action</h2><p>Structure the matter with Ardhi AI, then connect the evidence to the professional service your property requires.</p></div>
+
+<div class="services-v2-grid">
+<div class="services-v2-card"><span class="svc-num">01</span><span class="services-v2-price">From KES 15,000</span><h3>Land Due Diligence</h3><p>Registry evidence, site verification and risk-focused reporting before a purchase.</p><a href="#service">Explore service →</a></div>
+<div class="services-v2-card"><span class="svc-num">02</span><span class="services-v2-price">From KES 10,000</span><h3>Boundary Survey</h3><p>Professional boundary checks and field verification, with additional boundaries scoped as required.</p><a href="#service">Explore service →</a></div>
+<div class="services-v2-card"><span class="svc-num">03</span><span class="services-v2-price">From KES 25,000</span><h3>Subdivision & Mutation</h3><p>Survey and documentation workflow for changing parcel configurations.</p><a href="#service">Explore service →</a></div>
+<div class="services-v2-card"><span class="svc-num">04</span><span class="services-v2-price">Quote</span><h3>Topographic & Drone</h3><p>Terrain, aerial mapping and site evidence for development and planning work.</p><a href="#service">Explore service →</a></div>
+<div class="services-v2-card"><span class="svc-num">05</span><span class="services-v2-price">Quote</span><h3>GIS & Mapping</h3><p>Digitisation, spatial analysis and geo-referenced landholding maps.</p><a href="#service">Explore service →</a></div>
+<div class="services-v2-card"><span class="svc-num">06</span><span class="services-v2-price">Quote</span><h3>Title & Registry Support</h3><p>Professional support around searches, transfers, title processing and documentation.</p><a href="#service">Explore service →</a></div>
+
+<!-- Keep the complete service catalogue below; the moving callback strip also contains every catalogue item. -->
+
+</div></div></section><section class="service" id="service"><div class="wrap"><div class="section-head"><span class="eyebrow">Available now</span><h2>Two ways to protect land, starting with a conversation</h2><p>Not sure what you need? Start with a consultation, then move into the appropriate professional service.</p></div>
+<div class="service-card"><div class="service-info"><span class="tag">Start Here</span><h3>Consultation</h3><div><span class="price">Free</span> <span class="price-note">no obligation</span></div><p>Not sure if you need a survey, title search, due diligence or another land service? Talk to a land professional first.</p><ul class="feature-list"><li>One-on-one with a land professional</li><li>Clarity on the service that fits your case</li><li>No obligation, no pressure</li><li>WhatsApp or in person</li></ul><div class="turnaround">Most consultations can begin on WhatsApp. In-person support is available through our listed offices.</div><a class="btn btn-gold" style="margin-top:16px" href="https://wa.me/254708489751?text=Hi%20Ardhi%20AI%2C%20I%27d%20like%20to%20book%20a%20free%20consultation." target="_blank" rel="noopener">Book Free Consultation →</a></div></div>
+<div class="service-card"><div class="service-info"><span class="tag">Due Diligence</span><h3>Land Due Diligence</h3><div><span class="price">KES 15,000</span></div><p>A registry search, site visit and risk-focused report before you commit to a land purchase.</p><ul class="feature-list"><li>Registry evidence review</li><li>Site and boundary observations</li><li>Risk flags in plain language</li><li>Professional next-step recommendations</li></ul><a class="btn btn-gold" style="margin-top:16px" href="https://wa.me/254708489751?text=Hi%20Ardhi%20AI%2C%20I%27d%20like%20to%20book%20a%20land%20due%20diligence%20check." target="_blank" rel="noopener">Book Due Diligence →</a></div></div>
+
+</div></section>
+<section id="ai-assistant-section" style="padding:68px 0;background:#fff">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">AI → Human</span><h2>Have a question? Start a conversation.</h2><p>The Virtual Land Assistant handles general questions and directs case-specific matters toward human continuation where professional judgement or verification is required.</p></div>
+<div class="ai2-card" style="max-width:860px;margin:auto">
+<button type="button" class="btn btn-gold" onclick="document.getElementById('ardhiChatLauncher')?.click()">Start a Conversation →</button>
+<span style="font-size:.68rem;color:var(--ink-soft);margin-left:10px">Need a person? Human support is available on WhatsApp.</span>
+</div>
+</div>
+</section>
+<section class="fieldwork" id="fieldwork"><div class="wrap"><div class="section-head"><span class="eyebrow">Real jobs, real ground</span><h2>Behind every report is a team on site</h2><p>Field evidence remains central to professional land work.</p></div><div class="fieldwork-grid">
+<div class="fieldwork-card"><img src="images/ardhi-ai-consultant-reviewing-a-client-c-5.jpg" alt="Ardhi AI consultant reviewing a client case" loading="lazy"><div class="fieldwork-caption"><span class="tag">Consultation</span><h4>One-on-one, from query to closure</h4></div></div>
+<div class="fieldwork-card"><img src="images/surveyor-operating-rtk-gps-equipment-on--6.jpg" alt="Surveyor operating RTK GPS equipment" loading="lazy"><div class="fieldwork-caption"><span class="tag">RTK GPS</span><h4>Precision field evidence</h4></div></div>
+<div class="fieldwork-card"><img src="images/ardhi-ai-field-crew-with-survey-poles-pr-7.jpg" alt="Ardhi AI field crew" loading="lazy"><div class="fieldwork-caption"><span class="tag">Field Crew</span><h4>Every survey starts on the ground</h4></div></div>
+<div class="fieldwork-card"><img src="images/automatic-level-on-a-tripod-used-for-bui-8.jpg" alt="Automatic level for construction survey" loading="lazy"><div class="fieldwork-caption"><span class="tag">Building Works</span><h4>Construction survey support</h4></div></div>
+<div class="fieldwork-card"><img src="images/drone-used-for-aerial-topographic-and-ma-9.jpg" alt="Drone used for aerial topographic mapping" loading="lazy"><div class="fieldwork-caption"><span class="tag">Topo & Drone</span><h4>Aerial mapping and topography</h4></div></div>
+</div></div></section><section class="testimonials" id="testimonials"><div class="wrap"><div class="section-head"><span class="eyebrow">What clients say</span><h2>Trusted by landowners across Kenya</h2><p>Feedback themes from the cases handled through professional land services.</p></div><div class="testimonials-grid"><div class="testimonial-card"><span class="quote-mark">“</span><p class="quote-text">Our late father's shamba in Kutus was never formally subdivided between the five of us. Ardhi AI helped us map the boundaries against the mother title and get a survey done before we went to the land registry.</p><p class="testimonial-name">Mr. Andrew</p></div><div class="testimonial-card"><span class="quote-mark">“</span><p class="quote-text">The site verification helped us understand what needed to be checked before proceeding with the land matter.</p><p class="testimonial-name">Client feedback</p></div><div class="testimonial-card"><span class="quote-mark">“</span><p class="quote-text">Having the survey information and documentation clearly organised made the next professional step much easier.</p><p class="testimonial-name">Client feedback</p></div></div></div></section><section style="padding:80px 0;background:#fff" id="assistant" data-homepage-secondary="true">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Specialist assistant</span><h2>Ask Ardhi AI about the land matter</h2><p>Purpose-specific answers should identify what is known, what is missing, the relevant checks and the professional next step — not make unsupported legal or title guarantees.</p></div>
+<div class="assistant-box">
+<h3>Ardhi AI Land Assistant™</h3>
+<p style="font-size:.72rem;color:rgba(255,255,255,.6)">Try: “Can I subdivide this land?” or “What should I check before buying?”</p>
+<div class="assistant-input"><input id="assistantQuestion" placeholder="Ask a land question…"><button class="btn btn-gold" id="assistantAsk" type="button">Analyse →</button></div>
+<div class="assistant-answer" id="assistantAnswer">Your answer will be structured as: What we know → What we don't know → Relevant checks → Recommended action.</div>
+</div>
+</div>
+</section>
+<section id="ardhi-physical-offices" class="ardhi-physical-offices">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Physical locations</span>
+      <h2>Find Ardhi AI near you.</h2>
+      <p>Our physical offices provide in-person access to Ardhi AI's land-intelligence and professional land services.</p>
+    </div>
+    <div class="ardhi-office-grid">
+      
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Mwea Town</h3>
+          <strong>Kirinyaga County</strong>
+          <p>Serving Mwea, Wang’uru and surrounding irrigation-scheme areas.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Mwea+Town,+Kirinyaga,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Kagio</h3>
+          <strong>Kirinyaga County</strong>
+          <p>Head office town, serving Kagio and the wider Ndia / Mwea corridor.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Kagio,+Kirinyaga,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Kerugoya</h3>
+          <strong>Kirinyaga County</strong>
+          <p>County headquarters office, close to the Kerugoya land registry.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Kerugoya,+Kirinyaga,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Kiambu</h3>
+          <strong>Kiambu County</strong>
+          <p>Serving Kiambu town and the greater Nairobi-metro commuter belt.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Kiambu,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Murang'a</h3>
+          <strong>Murang'a County</strong>
+          <p>Serving Murang'a town and surrounding coffee-farming zones.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Murang'a,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Nyeri</h3>
+          <strong>Nyeri County</strong>
+          <p>Serving Nyeri town and the wider Mt. Kenya farming region.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Nyeri,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+        <article class="ardhi-office-card">
+          <div class="ardhi-office-card-top">
+            <span class="eyebrow">Physical Office</span>
+            <span class="ardhi-office-pin">●</span>
+          </div>
+          <h3>Embu</h3>
+          <strong>Embu County</strong>
+          <p>Serving Embu town and the eastern slopes of Mt. Kenya.</p>
+          <a class="ardhi-office-map" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/search/?api=1&query=Embu,+Kenya">
+             View location / Get directions →
+          </a>
+        </article>
+    </div>
+  </div>
+</section>
+
+<section class="content-hub" id="content-hub" data-homepage-secondary="true"><div class="wrap"><div class="section-head"><span class="eyebrow">Guides & Articles</span><h2>Land intelligence for everyday decisions</h2><p>Practical education on land verification, boundaries, surveys, title processes and geospatial evidence.</p></div><div class="content-hub-grid"><article class="content-card"><h3>Before You Buy Land in Kenya</h3><p>Understand the major evidence and professional checks before committing funds.</p><a href="#land-check">Run the check →</a></article><article class="content-card"><h3>Boundary Problems</h3><p>Learn why document-only assumptions can fail and when field verification matters.</p><a href="#service">Book a survey →</a></article><article class="content-card"><h3>Subdivision & Mutation</h3><p>Understand the survey and documentation pathway for changing parcel configurations.</p><a href="#services-menu">View services →</a></article></div></div></section><section class="faq-section" id="faq"><div class="wrap"><div class="section-head"><span class="eyebrow">FAQs</span><h2>Frequently asked questions</h2></div><div class="faq-list"><details class="faq-item"><summary>How long does a boundary survey take?</summary><p>Many boundary surveys can be completed on site within a day, with final documentation depending on plot size, terrain, location and the scope of work.</p></details><details class="faq-item"><summary>What documents do I need for a title or registry search?</summary><p>Typically the title deed or land reference number and the names of the registered owner. The exact requirements depend on the matter.</p></details><details class="faq-item"><summary>How much does a land survey cost?</summary><p>Pricing depends on the service, plot size, location and scope. The price list on this site provides starting figures for selected services.</p></details><details class="faq-item"><summary>How do I know if a title deed is genuine?</summary><p>A website screening tool cannot authenticate a title. Proper verification requires authoritative registry evidence, professional survey evidence and, where appropriate, legal review.</p></details><details class="faq-item"><summary>Do you work outside Nairobi?</summary><p>Yes. Ardhi AI is positioned to connect clients with professional land services across Kenya, subject to location and scope.</p></details></div></div></section><section id="contact" style="padding:75px 0;background:#fff">
+
+
+<div class="wrap"><div class="section-head"><span class="eyebrow">Get started</span><h2>Bring your land matter</h2><p>Tell us what you need and we will help identify the right professional next step.</p><div class="get-started-contact" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px"><div class="contact-action"><button type="button" class="btn btn-gold" aria-expanded="false">Contact ▾</button><div class="contact-action-menu"><a href="tel:+254708489751">☎ Call 0708 489 751</a><a href="https://wa.me/254103308958?text=Hi%20Ardhi%20AI%2C%20I%27d%20like%20help%20with%20a%20land%20matter." target="_blank" rel="noopener">◉ WhatsApp 0708 489 751</a><a href="tel:+254103308958">☎ Call 0103 308 958</a><a href="https://wa.me/254103308958?text=Hi%20Ardhi%20AI%2C%20I%27d%20like%20help%20with%20a%20land%20matter." target="_blank" rel="noopener">◉ WhatsApp 0103 308 958</a></div></div><a class="btn btn-outline-forest" href="mailto:ardhiai.kenya@gmail.com">Email us</a></div></div></div></section>
+
+
+<section id="professional-boundaries" style="padding:48px 0;background:#f7f5ec;border-top:1px solid var(--line)">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Professional boundaries</span><h2>Clear scope. Clear evidence.</h2><p>Ardhi AI's preliminary intelligence is decision-support. Where a matter requires a licensed surveyor, advocate, planner, valuer, government authority or other competent professional, the platform identifies that requirement rather than overstating what AI can establish.</p></div>
+</div>
+</section>
+
+
+<section class="footer-cta"><div class="wrap">
+<span class="homepage-section-label dark">Start with the evidence</span>
+<h2>Bring your land matter.</h2>
+<p>Start with a Land Intelligence Check or speak directly with a professional about the next verification step.</p>
+<div class="footer-cta-actions"><a class="btn btn-gold" href="#land-check">Generate Land Intelligence Check →</a><a class="btn btn-ghost" href="#contact">Contact Ardhi AI</a></div>
+</div></section>
+
+<div class="mobile-contact-dock" aria-label="Quick contact">
+  <a href="https://wa.me/254103308958?text=Hi%20Ardhi%20AI%2C%20I%27d%20like%20help%20with%20a%20land%20matter." aria-label="WhatsApp 0103 308 958">
+    <span class="dock-icon">◉</span><span><b>WhatsApp</b><small>0103 308 958</small></span>
+  </a>
+  <a href="tel:+254708489751" aria-label="Call 0708 489 751">
+    <span class="dock-icon">☎</span><span><b>Call</b><small>0708 489 751</small></span>
+  </a>
+  <a href="mailto:ardhiai.kenya@gmail.com" aria-label="Email Ardhi AI">
+    <span class="dock-icon">✉</span><span><b>Email</b><small>Ardhi AI</small></span>
+  </a>
+</div>
+<footer><div class="wrap"><div class="footer-top"><div><div class="footer-brand"><span>ARDHI AI</span></div><p>Kenya's AI-powered land intelligence and geospatial platform. Professional land services, evidence-led screening and survey intelligence.</p></div><div class="footer-col"><h4>Explore</h4><ul><li><a href="#land-check">Land Intelligence Check</a></li><li><a href="#services-menu">Services & Pricing</a></li><li><a href="#sample-report">Sample Report</a></li><li><a href="#platform">The Platform</a></li></ul></div><div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+254708489751">0708 489 751</a></li><li><a href="tel:+254103308958">0103 308 958</a></li><li><a href="mailto:ardhiai.kenya@gmail.com">ardhiai.kenya@gmail.com</a></li><li><span class="privacy-link" onclick="openPrivacy()">Privacy Policy</span></li></ul></div></div><div class="footer-bottom"><span>© 2026 Ardhi AI — Benchmark Land Surveying</span><span>Preliminary screening does not replace official records, surveyors or legal advice.</span></div></div></footer>
+
+<a class="whatsapp-float" href="https://wa.me/254103308958?text=Hi%20Ardhi%20AI%2C%20I%27d%20like%20help%20with%20a%20land%20matter." target="_blank" aria-label="WhatsApp Ardhi AI"><span class="whatsapp-badge">Human WhatsApp Support</span><svg viewBox="0 0 32 32"><path d="M16 3.2A12.8 12.8 0 0 0 5.1 22.7L3.4 28.8l6.3-1.6A12.8 12.8 0 1 0 16 3.2zm0 23.3a10.5 10.5 0 0 1-5.3-1.4l-.4-.2-3.7.9 1-3.6-.3-.4A10.5 10.5 0 1 1 16 26.5zm5.8-7.8c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.9-.9-3.1-1.6-4.3-3.6-.3-.5.3-.5.9-1.7.1-.2.1-.4 0-.6-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.2 3.2c.2.2 2.1 3.3 5.1 4.6 1.9.8 2.6.9 3.5.8.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg></a>
+
+<div class="callback-bar"><div class="callback-label">Request a callback — choose a service</div><div class="callback-track"><div class="callback-track-inner" id="callbackTrackInner"></div></div><noscript class="callback-noscript">Services are available below in the Services section.</noscript><div class="callback-action"><div class="required-phone"><span>+254</span><input id="callbackPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="7XXXXXXXX" pattern="[17][0-9]{8}"></div><button class="callback-request" id="callbackRequest">REQUEST →</button></div><p class="callback-hint" id="callbackHint">Pick a service, add your number, then tap Request.</p></div>
+
+
+<!-- ARDHI AI VIRTUAL ASSISTANT -->
+<button id="ardhiChatLauncher" class="ardhi-chat-launcher" type="button" aria-label="Open Ardhi AI virtual assistant" aria-expanded="false">
+<span class="chat-badge">Virtual Land Assistant</span>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h4l4 3 4-3h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm-2 10H6v-2h12v2zm0-3H6V9h12v2z"/></svg>
+</button>
+<section id="ardhiChatWindow" class="ardhi-chat-window" aria-label="Ardhi AI Virtual Assistant" aria-hidden="true">
+<header class="ardhi-chat-head"><div class="ardhi-chat-brand"><div class="ardhi-chat-avatar">AI</div><div><div class="ardhi-chat-title">Ardhi AI Virtual Assistant</div><div class="ardhi-chat-status" id="ardhiChatStatus">Automated assistant • Human handoff available</div></div></div><button id="ardhiChatClose" class="ardhi-chat-close" type="button" aria-label="Close chat">×</button></header>
+<div id="ardhiChatBody" class="ardhi-chat-body" aria-live="polite">
+<div class="ardhi-msg ai"><div class="ardhi-bubble">Hello 👋 I'm the Ardhi AI virtual assistant. Ask me about land due diligence, surveying, subdivision, documents, mapping, verification, our services, the process, or how to start a case.</div></div>
+<div class="ardhi-msg ai"><div class="ardhi-bubble">I can handle general questions automatically. If your matter needs a professional decision, physical assessment, official-channel verification, a complaint, or a human conversation, I'll hand it over.</div></div>
+<div class="ardhi-quick" id="ardhiChatQuick"><button type="button" data-chat="What is Land Due Diligence?">Land Due Diligence</button><button type="button" data-chat="What services do you offer?">Services</button><button type="button" data-chat="I want to start a Land Intelligence Check.">Start a check</button><button type="button" data-chat="I want to speak to a professional.">Talk to a professional</button></div>
+</div>
+<div id="ardhiChatHandoff" class="ardhi-chat-handoff"><strong>Human continuation available.</strong><br>Your conversation is marked for professional follow-up. Add your phone number below so the team can continue with you.</div>
+<div class="ardhi-chat-profile"><div class="ardhi-profile-grid"><input id="ardhiChatName" placeholder="Your name" autocomplete="name"><input id="ardhiChatPhone" placeholder="+254 7XX XXX XXX" inputmode="tel" autocomplete="tel"><input id="ardhiChatEmail" class="full" placeholder="Email (optional)" type="email" autocomplete="email"></div></div>
+<div class="ardhi-chat-composer"><textarea id="ardhiChatInput" placeholder="Type your land question…" aria-label="Chat message"></textarea><button id="ardhiChatSend" class="ardhi-chat-send" type="button" aria-label="Send message">➤</button></div>
+<div class="ardhi-chat-actions"><button id="ardhiHumanBtn" type="button">👤 Request human</button><button id="ardhiCheckBtn" type="button">Start Land Check</button></div>
+</section>
+
+<div id="privacyOverlay"><div class="privacy-box"><button class="privacy-close" onclick="closePrivacy()">×</button><h2>Privacy Policy</h2><p><strong>Last updated: August 2026</strong></p><p>Ardhi AI, operated by Benchmark Land Surveying, respects your privacy and is committed to protecting personal data in accordance with Kenya's Data Protection Act, 2019.</p><h3>1. Information we collect</h3><p>We may receive information you voluntarily provide when requesting a consultation, quote, callback or professional service, including your name, phone number, email and land-matter details.</p><h3>2. How we use information</h3><p>We use enquiry information to respond to requests, scope professional services, arrange site visits and communicate about your matter.</p><h3>3. WhatsApp</h3><p>If you contact us through WhatsApp, that conversation is also subject to WhatsApp's own privacy practices.</p><h3>4. Your rights</h3><p>Under applicable Kenyan data-protection law, you may have rights to access, correction, deletion where applicable, objection or restriction, and to lodge a complaint with the relevant authority.</p><h3>5. Contact</h3><p>Questions about your data: <a href="mailto:ardhiai.kenya@gmail.com">ardhiai.kenya@gmail.com</a> or <a href="tel:+254708489751">0708 489 751</a>.</p></div></div>
+
+<script>
+const PHONES={head:'254708489751',general:'254103308958'};
+const PRICING=[
+{group:'Start here',rows:[['Consultation','Free — WhatsApp or in person at our offices','Free']]},
+{group:'Survey services',rows:[
+['Boundary survey','General boundary check — 1 boundary; +KES 5,000 per additional boundary','From KES 10,000'],
+['Fixed boundary survey','Formal Cap 299 boundary determination','Quote on request'],
+['Subdivision survey','Per resulting portion — mutation/title workflow','From KES 25,000'],
+['Beacon relocation','Per beacon — map & mutation included','KES 3,500'],
+['Plot tracing','Locate a missing or hard-to-find plot','From KES 15,000'],
+['Topographic / drone survey','Depends on plot size and task scope','From KES 50,000'],
+['Land consolidation','Merging multiple parcels into one title','Quote on request'],
+['Combination','Merging adjoining registered parcels','KES 15,000'],
+['Re-parcel','Reconfiguring adjoining parcel boundaries','KES 25,000'],
+['Partition','Division of a parcel into resulting portions','KES 25,000'],
+['Change of common boundary','Boundary adjustment between parcels','KES 50,000'],
+['Cadastral / RIM survey','First-time registered survey for unregistered land','Quote on request'],
+['Construction setting-out & as-built survey','Foundation setting-out plus post-construction verification','Quote on request'],
+['Condominium / sectional title survey','Sectional title survey for apartments/units','Quote on request']]},
+{group:'Due diligence',rows:[['Land due diligence','Registry search, site visit & risk report before you buy','KES 15,000'],['Land banking due diligence','Bulk verification for investors buying multiple parcels','Quote on request']]},
+{group:'Registry & documentation',rows:[
+['Title processing','Depends on plot size and locality','From KES 25,000'],
+['Land transfer — normal board','Standard transfer facilitation','KES 6,000'],
+['Land transfer — special board','Includes Land Control Board consent','KES 18,000'],
+['Registry search','Turnaround: 1–2 working days','KES 2,500'],
+['Change of user','Land use classification change','Quote on request'],
+['Lease extension','Extending a leasehold term','Quote on request'],
+['Land rate clearance','County land rates clearance certificate','Quote on request'],
+['Land rent clearance','National land rent clearance certificate','Quote on request'],
+['Green card / expedited official search','Faster-turnaround registry search','Quote on request'],
+['Consent to charge / mortgage processing','Facilitation for using land as loan collateral','Quote on request'],
+['Sectional plan approval facilitation','Approval facilitation for sectional plans','Quote on request']]},
+{group:'Court-adjacent',rows:[['Succession / inheritance transmission','Inclusive of applicable legal fees','From KES 50,000']]},
+{group:'Mapping & GIS',rows:[['GIS mapping & digitization for institutions','For SACCOs, churches, schools & estates — geo-tagged landholding maps','Quote on request']]},
+{group:'Other',rows:[['Any other surveying work','Not seeing your service listed? Tell us what you need','Quote on request']]}
+];
+
+function wa(msg){return 'https://wa.me/'+PHONES.head+'?text='+encodeURIComponent(msg)}
+function renderPricing(){document.getElementById('menuGroupsList').innerHTML=PRICING.map(g=>'<div class="menu-group"><h3>'+g.group+'</h3>'+g.rows.map(r=>'<div class="menu-row"><div><span class="menu-row-name">'+r[0]+'</span><span class="menu-row-note">'+r[1]+'</span></div><div class="menu-row-right"><span class="menu-row-price">'+r[2]+'</span><a href="'+wa('Hi Ardhi AI, I would like a quote for '+r[0]+'.')+'" target="_blank">WhatsApp →</a></div></div>').join('')+'</div>').join('')}
+renderPricing();
+
+const OFFICES=[
+['Kirinyaga County','Mwea Town','Serving Mwea, Wang’uru and surrounding irrigation-scheme areas.','Mwea Town, Kirinyaga, Kenya'],
+['Kirinyaga County','Kagio','Head office town — serving Kagio and the wider Ndia / Mwea corridor.','Kagio, Kirinyaga, Kenya'],
+['Kirinyaga County','Kerugoya','County headquarters office, close to the Kerugoya land registry.','Kerugoya, Kirinyaga, Kenya'],
+['Kiambu County','Kiambu','Serving Kiambu town and the greater Nairobi-metro commuter belt.','Kiambu, Kenya'],
+["Murang'a County","Murang'a",'Serving Murang’a town and surrounding coffee-farming zones.',"Murang'a, Kenya"],
+['Nyeri County','Nyeri','Serving Nyeri town and the wider Mt. Kenya farming region.','Nyeri, Kenya'],
+['Embu County','Embu','Serving Embu town and the eastern slopes of Mt. Kenya.','Embu, Kenya']
+];
+function renderOffices(){document.getElementById('officeGrid').innerHTML=OFFICES.map(o=>{const q=encodeURIComponent(o[3]);return '<div class="office-card"><iframe class="office-card-map" loading="lazy" src="https://www.google.com/maps?q='+q+'&output=embed" title="Ardhi AI — '+o[1]+' office map"></iframe><div class="office-card-body"><span class="office-card-county">'+o[0]+'</span><h4>'+o[1]+'</h4><p>'+o[2]+'</p><a class="office-card-link" target="_blank" href="https://www.google.com/maps/search/?api=1&query='+q+'">Get directions →</a></div></div>'}).join('')}
+renderOffices();
+
+const ids=['lcCounty','lcPurpose','lcAcreage','lcBoundary','lcRegistry','lcEncumbrance','lcOwner','lcPlanning','lcMatrimonial'];
+function updateProgress(){document.getElementById('landCheckProgress').textContent=Math.round(ids.filter(id=>document.getElementById(id).value).length/ids.length*100)+'% complete'}
+ids.forEach(id=>document.getElementById(id).addEventListener('change',updateProgress));
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function analyseLand(){
+ const v=id=>document.getElementById(id).value, missing=ids.filter(id=>!v(id));
+ const result=document.getElementById('landCheckResult');
+ if(missing.length){result.innerHTML='<div class="result-empty"><div class="result-orbit">!</div><h3>Complete the screening first.</h3><p>'+missing.length+' material field(s) remain. Ardhi AI does not guess about missing evidence.</p></div>';return}
+ let risk=0,confidence=0,critical=false,flags=[],actions=[];
+ const good=(w,m)=>{confidence+=w;flags.push(['good',m])};
+ const bad=(w,m,a,c=false)=>{risk+=w;flags.push([c?'critical':'bad',m]);if(a)actions.push(a);if(c)critical=true};
+
+ if(v('lcRegistry')==='verified')good(15,'Recent official search is reported as available.');
+ else if(v('lcRegistry')==='old')bad(8,'Registry evidence may be outdated.','Obtain and review a current official search.');
+ else bad(18,'No current official registry evidence has been established.','Obtain a current official search before relying on title or registered interests.',true);
+
+ if(v('lcOwner')==='matched')good(14,'Seller / owner identity is reported as matching evidence.');
+ else if(v('lcOwner')==='unclear')bad(8,'Ownership identity is not independently confirmed.','Reconcile seller identity with the registered proprietor.');
+ else bad(17,'Owner identity is reported as inconsistent or disputed.','Stop and resolve the ownership inconsistency professionally.',true);
+
+ if(v('lcEncumbrance')==='clear')good(14,'No adverse registered interest is reported in current evidence.');
+ else if(v('lcEncumbrance')==='unknown')bad(9,'Registered interests are not established.','Check current register entries for cautions, restrictions, charges and disputes.');
+ else bad(17,'An adverse interest or dispute is indicated.','Obtain the underlying register evidence and professional/legal review.',true);
+
+ if(v('lcBoundary')==='surveyed')good(13,'Professional boundary verification is reported.');
+ else if(v('lcBoundary')==='documents')bad(6,'Documents exist but ground evidence is not verified.','Commission professional boundary / field verification.');
+ else if(v('lcBoundary')==='unknown')bad(10,'Boundary / beacon evidence is not established.','Commission field survey and reconcile the evidence.');
+ else bad(15,'Ground and documentary boundary information conflicts.','Investigate the boundary discrepancy before proceeding.',true);
+
+ if(v('lcAcreage')==='yes')good(9,'Acreage figures are reported as consistent.');
+ else if(v('lcAcreage')==='unknown')bad(6,'Acreage has not been independently confirmed.','Compare registry, survey and field/GIS measurements.');
+ else bad(10,'Acreage figures are reported to differ.','Resolve the acreage discrepancy professionally.',true);
+
+ if(v('lcPlanning')==='verified')good(9,'Relevant planning / land-category status is reported as verified.');
+ else if(v('lcPlanning')==='partial')bad(4,'Planning evidence is partial.','Complete applicable planning and land-category checks.');
+ else if(v('lcPlanning')==='unknown')bad(8,'Planning and land-category status is not established.','Confirm applicable planning controls and land category.');
+ else bad(10,'Potential planning concern is indicated.','Obtain authoritative planning confirmation before proceeding.',true);
+
+ if(v('lcMatrimonial')==='none'||v('lcMatrimonial')==='verified')good(5,'No unresolved matrimonial / third-party issue is reported.');
+ else if(v('lcMatrimonial')==='unknown')bad(4,'Potential third-party interest is not established.','Where applicable, obtain professional legal confirmation.');
+ else bad(7,'Potential competing interest is indicated.','Resolve the competing interest before proceeding.',true);
+
+ const purpose=v('lcPurpose');
+ if(purpose==='buy')actions.push('Do not treat this screening as purchase clearance; complete professional due diligence before payment.');
+ if(purpose==='subdivide')actions.push('Confirm subdivision feasibility, survey requirements and approvals.');
+ if(purpose==='develop')actions.push('Confirm applicable development permissions and planning requirements.');
+ if(purpose==='estate')actions.push('Confirm succession / transmission documentation and registered position.');
+
+ risk=Math.min(100,Math.max(1,risk));confidence=Math.min(100,Math.max(5,confidence));
+ let status=critical?'TRANSACTION HOLD — MATERIAL ISSUE IDENTIFIED':risk<=25?'LOWER PRELIMINARY RISK':risk<=55?'REVIEW REQUIRED':'HIGH PRELIMINARY RISK';
+ let cls=critical?'high':risk<=25?'low':'review';
+ const flagsHtml=flags.slice(0,8).map(f=>'<div class="result-flag '+f[0]+'">'+(f[0]==='good'?'✓ ':'⚠ ')+esc(f[1])+'</div>').join('');
+ const actionsHtml=actions.slice(0,6).map((a,i)=>(i+1)+'. '+esc(a)).join('<br>');
+ const parcel=esc(document.getElementById('lcParcel').value||'Unspecified parcel'), county=esc(v('lcCounty'));
+ result.innerHTML='<div class="result-report"><div class="result-top"><div><small>ARDHI AI • PRELIMINARY LAND INTELLIGENCE</small><h3>'+parcel+'</h3></div><div class="result-score"><strong>'+risk+'</strong><span>Risk</span></div></div><div class="result-status '+cls+'">'+status+'</div><div class="result-meta"><div><small>County</small><b>'+county+'</b></div><div><small>Evidence confidence</small><b>'+confidence+'/100</b></div></div><div style="margin-top:9px">'+flagsHtml+'</div><div class="result-next"><strong>Required actions</strong><br>'+actionsHtml+'</div><div class="result-next"><strong>Methodology</strong><br>Screening domains: Constitution of Kenya, 2010; Land Registration Act, 2012; Land Act, 2012; Physical and Land Use Planning Act, 2019; Matrimonial Property Act, 2013; and professional survey evidence.</div><div class="result-actions"><a class="btn btn-gold" href="'+wa('Hi Ardhi AI, I ran the Land Intelligence Check for '+(document.getElementById('lcParcel').value||'my parcel')+' in '+v('lcCounty')+'. Preliminary risk indicator: '+risk+'/100; evidence confidence: '+confidence+'/100. I would like professional verification.')+'" target="_blank">Request Professional Verification →</a><button class="btn btn-ghost" type="button" onclick="document.getElementById(\'land-check\').scrollIntoView({behavior:\'smooth\'})">Run Again</button></div></div>';
+}
+document.getElementById('runLandCheck').onclick=analyseLand;
+document.getElementById('resetLandCheck').onclick=()=>location.reload();
+updateProgress();
+
+const callbackServices=PRICING.flatMap(g=>g.rows.map(r=>r[0]));
+const selectedServices=new Set();
+
+function renderCallbackServices(){
+  const inner=document.getElementById('callbackTrackInner');
+  if(!inner)return;
+
+  const markup=callbackServices.map(function(s){
+    return '<button class="callback-chip" type="button" data-service="'+esc(s)+'">'+esc(s)+'</button>';
+  }).join('');
+
+  // Duplicate the complete catalogue for a seamless marquee.
+  inner.innerHTML=markup+markup;
+
+  inner.querySelectorAll('.callback-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){
+      selectCallback(chip,chip.getAttribute('data-service'));
+    });
+  });
+}
+
+function syncSelectedCallbackChips(){
+  document.querySelectorAll('.callback-chip').forEach(function(chip){
+    const service=chip.getAttribute('data-service')||'';
+    const on=selectedServices.has(service);
+    chip.classList.toggle('active',on);
+    chip.classList.toggle('selected',on);
+  });
+}
+
+function selectCallback(el,service){
+  service=String(service||'').trim();
+  if(!service)return;
+
+  if(selectedServices.has(service)){
+    selectedServices.delete(service);
+  }else{
+    selectedServices.add(service);
+  }
+
+  syncSelectedCallbackChips();
+
+  // Briefly pause so the user can see what was selected, then resume motion.
+  const track=document.querySelector('.callback-track-inner');
+  if(track){
+    track.style.animationPlayState='paused';
+    clearTimeout(track._ardhiResumeTimer);
+    track._ardhiResumeTimer=setTimeout(function(){
+      track.style.animationPlayState='running';
+    },700);
+  }
+
+  const hint=document.getElementById('callbackHint');
+  const chosen=[...selectedServices];
+  if(hint){
+    hint.textContent=chosen.length
+      ? 'Selected '+chosen.length+' service'+(chosen.length===1?'':'s')+'. Add your number, then tap Request.'
+      : 'Choose one or more services, then enter your phone number.';
+  }
+
+  window.ARDHI_SELECTED_SERVICES=chosen;
+  window.dispatchEvent(new CustomEvent('ardhi:services-selected',{detail:{services:chosen}}));
+}
+
+renderCallbackServices();
+
+document.getElementById('callbackRequest').onclick=function(){
+  const p=document.getElementById('callbackPhone').value.trim();
+  const chosen=[...selectedServices];
+
+  if(!chosen.length||!p){
+    const hint=document.getElementById('callbackHint');
+    if(hint){
+      hint.textContent=(!chosen.length&&!p)
+        ? 'Choose one or more services and enter your phone number.'
+        : (!chosen.length
+          ? 'Please choose at least one service.'
+          : 'Please enter your phone number.');
+    }
+    if(!p)document.getElementById('callbackPhone').focus();
+    return;
+  }
+
+  window.open(
+    wa('Hi Ardhi AI, I would like a callback. Services: '+chosen.join(', ')+'. Phone: '+p),
+    '_blank'
+  );
+};
+
+function openPrivacy(){document.getElementById('privacyOverlay').style.display='block';document.body.style.overflow='hidden'}
+function closePrivacy(){document.getElementById('privacyOverlay').style.display='none';document.body.style.overflow=''}
+if(location.hash==='#privacy-policy')openPrivacy();
+
+// ===== Land Intelligence Engine 2.0 interactions =====
+const docInput=document.getElementById('docInput');
+if(docInput){
+  docInput.addEventListener('change',()=>{
+    const list=document.getElementById('docList');
+    if(!docInput.files.length)return;
+    list.innerHTML=Array.from(docInput.files).map(f=>'<div class="doc-item"><span>'+esc(f.name)+'</span><span>'+Math.round(f.size/1024)+' KB</span></div>').join('');
+  });
+}
+const assistantAsk=document.getElementById('assistantAsk');
+if(assistantAsk){
+  assistantAsk.addEventListener('click',()=>{
+    const q=document.getElementById('assistantQuestion').value.trim().toLowerCase();
+    const box=document.getElementById('assistantAnswer');
+    if(!q){box.textContent='Enter a land question first.';return}
+    let answer='';
+    if(q.includes('subdiv')) answer='<strong>What we know:</strong> Subdivision generally requires the existing parcel position, survey evidence and applicable approvals to be established. <br><br><strong>What we do not know:</strong> Your parcel size, planning status, access and current registry position. <br><br><strong>Relevant checks:</strong> title/registry, survey records, acreage, boundaries, access and applicable planning requirements. <br><br><strong>Recommended action:</strong> Start with a professional subdivision feasibility and survey assessment.';
+    else if(q.includes('buy')||q.includes('purchase')) answer='<strong>What we know:</strong> Buying land requires more than looking at a title document. <br><br><strong>What we do not know:</strong> Current registry interests, physical boundaries, seller identity and planning status for your property. <br><br><strong>Relevant checks:</strong> current official search, ownership, encumbrances, boundary/acreage and planning evidence. <br><br><strong>Recommended action:</strong> Run the Land Intelligence Check, then request professional due diligence before payment.';
+    else if(q.includes('title')) answer='<strong>What we know:</strong> A title document is one piece of the evidence record. <br><br><strong>What we do not know:</strong> Whether the document matches the current authoritative register and physical parcel without further verification. <br><br><strong>Relevant checks:</strong> current official registry evidence, ownership, registered interests and survey/boundary evidence. <br><br><strong>Recommended action:</strong> Obtain an official search and professional review.';
+    else answer='<strong>What we know:</strong> Your question concerns a land matter that should be assessed against the property, purpose and available evidence. <br><br><strong>What we do not know:</strong> The parcel reference, county, transaction purpose and supporting documents. <br><br><strong>Relevant checks:</strong> ownership, registry, boundaries, acreage, planning and applicable third-party interests. <br><br><strong>Recommended action:</strong> Run the Land Intelligence Check or contact Ardhi AI for a professional assessment.';
+    box.innerHTML=answer;
+  });
+}
+const printReport=document.getElementById('printReport');
+if(printReport)printReport.addEventListener('click',()=>window.print());
+
+
+// Contact number dropdowns
+document.querySelectorAll('.contact-action>button').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const wrap=btn.parentElement;
+    document.querySelectorAll('.contact-action.open').forEach(x=>{if(x!==wrap)x.classList.remove('open')});
+    wrap.classList.toggle('open');
+    btn.setAttribute('aria-expanded',wrap.classList.contains('open')?'true':'false');
+  });
+});
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.contact-action.open').forEach(x=>x.classList.remove('open'));
+});
+
+
+// Ardhi AI official contact numbers
+window.ARDHI_CONTACTS = {
+  primary: {display:'0708 489 751', tel:'+254708489751', whatsapp:'https://wa.me/254708489751'},
+  office:  {display:'0103 308 958', tel:'+254103308958', whatsapp:'https://wa.me/254103308958'}
+};
+
+</script>
+
+<script>
+(function(){
+  /*
+   * Ardhi AI frontend -> Google Apps Script backend integration.
+   *
+   * IMPORTANT:
+   * This points at the deployed Apps Script Web App /exec URL, bound
+   * to the ARDHI AI — LAND INTELLIGENCE REGISTER spreadsheet.
+   * If you ever redeploy and get a new URL, update it here (or set
+   * window.ARDHI_API_BASE before this script runs).
+   */
+  const API_BASE = window.ARDHI_API_BASE || 'https://script.google.com/macros/s/AKfycbxNM2nbcmeEkGAqdon_RNGA2CGsBqmxTyjJOEnOD_turFF-DD_VA-O9biXyJ7B5EUhqTA/exec';
+
+  // NOTE: there is no <form> element wrapping the land-check quiz —
+  // it's a set of standalone inputs/selects (#lcParcel, #lcCounty, etc.)
+  // plus the phone field (#clientPhone). We read them directly by id.
+  const phone = document.getElementById('clientPhone');
+  const phoneError = document.getElementById('clientPhoneError');
+  const status = document.getElementById('checkSubmissionStatus');
+  const refEl = document.getElementById('generatedCheckReference');
+  const backendText = document.getElementById('backendStatusText');
+  const backendDot = document.querySelector('.backend-dot');
+
+  const PURPOSE_LABELS = {
+    buy: 'Purchase',
+    own: 'Ownership Confirmation',
+    subdivide: 'Subdivision / Mutation',
+    dispute: 'Boundary / Dispute',
+    develop: 'Building / Development',
+    estate: 'Estate / Succession',
+    finance: 'Finance / Security'
+  };
+
+  function elVal(id){
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function normalizePhone(){
+    return phone ? '+254' + phone.value.trim() : '';
+  }
+
+  function validPhone(){
+    return !!phone && /^[17][0-9]{8}$/.test(phone.value.trim());
+  }
+
+  // Builds the payload the Apps Script backend expects from the
+  // Land Intelligence Check quiz fields (there's no separate lead
+  // form — the quiz answers *are* the submission).
+  function collectCheckPayload(){
+    const parcel = elVal('lcParcel');
+    const county = elVal('lcCounty');
+    const purposeCode = elVal('lcPurpose');
+
+    const selfReportedNotes = [
+      'Self-reported via Land Intelligence Check quiz (not independently verified):',
+      'Acreage figures agree: ' + (elVal('lcAcreage') || 'not answered'),
+      'Boundary/beacon status: ' + (elVal('lcBoundary') || 'not answered'),
+      'Registry evidence: ' + (elVal('lcRegistry') || 'not answered'),
+      'Registered interests/dispute: ' + (elVal('lcEncumbrance') || 'not answered'),
+      'Owner identity clarity: ' + (elVal('lcOwner') || 'not answered'),
+      'Planning/land category: ' + (elVal('lcPlanning') || 'not answered'),
+      'Matrimonial/third-party interest: ' + (elVal('lcMatrimonial') || 'not answered')
+    ].join('\n');
+
+    return {
+      client_phone: normalizePhone(),
+      parcel_reference: parcel,
+      property_location: [parcel, county].filter(Boolean).join(', '),
+      county: county,
+      sub_county: '',
+      purpose: PURPOSE_LABELS[purposeCode] || purposeCode,
+      service: 'Land Intelligence Check (Preliminary)',
+      area: '',
+      unit: '',
+      coordinates: '',
+      notes: selfReportedNotes,
+      documents: [],
+      source: 'ardhi-ai-web'
+    };
+  }
+
+  function showError(message){
+    if(phoneError) phoneError.textContent = message;
+  }
+
+  function setBackendStatus(online, message){
+    if(backendText) backendText.textContent = message;
+    if(backendDot){
+      backendDot.classList.toggle('online', online);
+      backendDot.classList.toggle('offline', !online);
+    }
+  }
+
+  async function checkBackend(){
+    try{
+      // Apps Script web apps don't support a separate /health route —
+      // doGet() on the base /exec URL doubles as the health check and
+      // returns { success:true, message:"ARDHI AI backend is live." }
+      const res = await fetch(API_BASE, {
+        method:'GET',
+        headers:{'Accept':'application/json'}
+      });
+      if(!res.ok) throw new Error('Health check failed');
+      const result = await res.json().catch(function(){ return {}; });
+      if(!result.success) throw new Error('Backend responded but reported failure');
+      setBackendStatus(true, 'Connected');
+      return true;
+    }catch(err){
+      setBackendStatus(false, 'Unavailable — submission will retry when connected');
+      return false;
+    }
+  }
+
+  if(phone){
+    phone.addEventListener('input', function(){
+      this.value = this.value.replace(/\D/g,'').slice(0,9);
+      showError('');
+      this.classList.remove('invalid');
+    });
+  }
+
+  // Submits the quiz answers to the real Ardhi AI backend (Apps Script).
+  // Returns true on success, false on failure. Does NOT touch the local
+  // analyseLand() preliminary display — that's rendered separately.
+  async function submitCheckToBackend(){
+    if(!validPhone()){
+      showError('A valid +254 Kenyan mobile number is required before the check can be generated.');
+      if(phone){
+        phone.classList.add('invalid');
+        phone.focus();
+      }
+      return false;
+    }
+
+    const runButton = document.getElementById('runLandCheck');
+    const originalText = runButton ? runButton.textContent : '';
+    if(runButton){
+      runButton.disabled = true;
+      runButton.textContent = 'Submitting…';
+    }
+
+    const payload = collectCheckPayload();
+
+    try{
+      /*
+       * Backend contract (Apps Script doPost):
+       * POST directly to the /exec URL (no separate /api/v1/checks path —
+       * Apps Script web apps only expose one endpoint, routed by doGet/doPost).
+       *
+       * IMPORTANT: Content-Type must be 'text/plain', NOT 'application/json'.
+       * Apps Script web apps cannot answer CORS preflight (OPTIONS) requests,
+       * so application/json here would silently fail. text/plain avoids the
+       * preflight while the body is still valid JSON text that doPost parses.
+       */
+      const response = await fetch(API_BASE, {
+        method:'POST',
+        headers:{
+          'Content-Type':'text/plain;charset=utf-8'
+        },
+        body:JSON.stringify(payload)
+      });
+
+      const result = await response.json().catch(function(){ return {}; });
+
+      // Apps Script always returns HTTP 200, even for validation failures
+      // (e.g. an invalid phone number) — the real signal is result.success.
+      if(!response.ok || !result.success){
+        const detail = result.error || result.message || 'The Land Intelligence Check could not be recorded.';
+        throw new Error(detail);
+      }
+
+      const reference = result.check_reference || 'GENERATED';
+      if(refEl) refEl.textContent = reference;
+
+      if(status){
+        status.hidden = false;
+        status.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+
+      setBackendStatus(true, 'Connected — check submitted');
+
+      try{
+        localStorage.setItem('ardhi_ai_last_check_reference', reference);
+      }catch(_){}
+
+      return true;
+
+    }catch(err){
+      console.error('Ardhi AI check submission error:', err);
+      setBackendStatus(false, 'Submission failed');
+      showError(err.message || 'Unable to submit the check. Please try again.');
+      return false;
+    }finally{
+      if(runButton){
+        runButton.disabled = false;
+        runButton.textContent = originalText || 'Generate Preliminary Assessment →';
+      }
+    }
+  }
+
+  // Expose for debugging / later integration.
+  window.ARDHI_AI = {
+    apiBase: API_BASE,
+    collectCheckPayload: collectCheckPayload,
+    submitCheckToBackend: submitCheckToBackend,
+    checkBackend: checkBackend
+  };
+
+  // IMPORTANT: the runLandCheck button was previously wired ONLY to
+  // analyseLand() (a client-side-only preliminary score with no backend
+  // call at all). We override it here so clicking it does both: shows
+  // the instant local preview AND actually records the check in the
+  // Ardhi AI backend/spreadsheet. This must run after the script block
+  // that defines analyseLand() (it does, since this block appears later
+  // in the document and script blocks execute in order).
+  const runButton = document.getElementById('runLandCheck');
+  if(runButton && typeof window.analyseLand === 'function'){
+    runButton.onclick = async function(){
+      if(!validPhone()){
+        showError('A valid +254 Kenyan mobile number is required before the check can be generated.');
+        if(phone){
+          phone.classList.add('invalid');
+          phone.focus();
+        }
+        return;
+      }
+      analyseLand();
+      await submitCheckToBackend();
+    };
+  }
+
+  checkBackend();
+})();
+</script>
+
+
+<script>
+(function(){
+const API=window.ARDHI_API_BASE||'https://script.google.com/macros/s/AKfycbxNM2nbcmeEkGAqdon_RNGA2CGsBqmxTyjJOEnOD_turFF-DD_VA-O9biXyJ7B5EUhqTA/exec';
+const $=id=>document.getElementById(id);
+const launcher=$('ardhiChatLauncher'),win=$('ardhiChatWindow'),close=$('ardhiChatClose'),body=$('ardhiChatBody'),input=$('ardhiChatInput'),send=$('ardhiChatSend'),human=$('ardhiHumanBtn'),startCheck=$('ardhiCheckBtn'),handoff=$('ardhiChatHandoff'),status=$('ardhiChatStatus'),nameEl=$('ardhiChatName'),phoneEl=$('ardhiChatPhone'),emailEl=$('ardhiChatEmail'),quick=$('ardhiChatQuick');
+if(!launcher||!win)return;
+let chatId='',lastMessageId=0,pollTimer=null,sending=false;
+
+function openChat(){win.classList.add('open');win.setAttribute('aria-hidden','false');launcher.setAttribute('aria-expanded','true');input.focus();if(!chatId)startSession();}
+function closeChat(){win.classList.remove('open');win.setAttribute('aria-hidden','true');launcher.setAttribute('aria-expanded','false');}
+function addMessage(sender,text,id){if(id&&body.querySelector('[data-msg-id="'+String(id)+'"]'))return;const row=document.createElement('div');row.className='ardhi-msg '+(sender==='CLIENT'?'user':sender==='SYSTEM'?'system':'ai');if(id)row.dataset.msgId=id;const b=document.createElement('div');b.className='ardhi-bubble';b.textContent=String(text||'');row.appendChild(b);body.appendChild(row);body.scrollTop=body.scrollHeight;}
+function setHandoff(on){handoff.classList.toggle('show',!!on);if(on)status.textContent='Human continuation requested';}
+async function post(data){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});const j=await r.json().catch(()=>({}));if(!r.ok||!j.success)throw new Error(j.error||'Chat service unavailable.');return j;}
+async function startSession(){try{const r=await post({action:'chat_start',client_name:nameEl.value.trim(),client_phone:phoneEl.value.trim(),client_email:emailEl.value.trim(),source:'ardhi-ai-web'});chatId=r.chat_id;lastMessageId=Number(r.last_message_id||0);pollTimer&&clearInterval(pollTimer);pollTimer=setInterval(refresh,4000);}catch(e){status.textContent='Assistant temporarily unavailable';}}
+async function refresh(){if(!chatId)return;try{const r=await post({action:'chat_get',chat_id:chatId,after_id:lastMessageId});(r.messages||[]).forEach(m=>{if(m.sender!=='CLIENT')addMessage(m.sender,m.message,m.message_id);if(m.handoff_required==='TRUE'||m.handoff_required===true)setHandoff(true);});lastMessageId=Number(r.next_after_id||lastMessageId);if(r.status==='HUMAN_REQUIRED'||r.status==='HUMAN_ACTIVE')setHandoff(true);}catch(e){}}
+async function sendMessage(text){text=String(text||'').trim();if(!text||sending)return;sending=true;send.disabled=true;addMessage('CLIENT',text);input.value='';try{if(!chatId)await startSession();const r=await post({action:'chat_message',chat_id:chatId,message:text,client_name:nameEl.value.trim(),client_phone:phoneEl.value.trim(),client_email:emailEl.value.trim(),source:'ardhi-ai-web'});if(r.message){addMessage(r.message.sender||'AI',r.message.text||r.message.message||'',r.message.message_id);}if(typeof r.next_after_id==='number')lastMessageId=r.next_after_id;if(r.handoff_required)setHandoff(true);}catch(e){addMessage('SYSTEM','I could not reach the assistant right now. Please try again, or use WhatsApp/Call for direct help.');}finally{sending=false;send.disabled=false;input.focus();}}
+launcher.onclick=()=>win.classList.contains('open')?closeChat():openChat();close.onclick=closeChat;send.onclick=()=>sendMessage(input.value);
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(input.value);}});
+quick.onclick=e=>{const b=e.target.closest('button[data-chat]');if(b)sendMessage(b.dataset.chat);};
+human.onclick=async()=>{try{if(!chatId)await startSession();const r=await post({action:'chat_handoff',chat_id:chatId,client_name:nameEl.value.trim(),client_phone:phoneEl.value.trim(),client_email:emailEl.value.trim(),source:'ardhi-ai-web'});setHandoff(true);if(r.message){addMessage('SYSTEM',r.message.text||'Your conversation has been marked for human continuation.',r.message.message_id);if(typeof r.next_after_id==='number')lastMessageId=r.next_after_id;}}catch(e){addMessage('SYSTEM','Please add your phone number and use WhatsApp or Call for immediate human continuation.');}};
+startCheck.onclick=()=>{closeChat();const t=document.getElementById('land-check')||document.getElementById('landCheck')||document.querySelector('[id*="land-check"]');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});};
+window.ARDHI_CHAT={open:openChat,close:closeChat,getChatId:()=>chatId};
+})();
+</script>
+
+
+
+<script id="ARDHI_V16_SERVICE_SELECTION_OVERRIDE">
+(function(){
+  const services = typeof PRICING!=='undefined' ? PRICING.flatMap(g=>g.rows.map(r=>r[0])) : [];
+  const target = document.getElementById('callbackTrackInner');
+  const selected = new Set();
+
+  if(target && services.length){
+    target.innerHTML = services.concat(services).map(s =>
+      '<button class="callback-chip" type="button" data-service="'+esc(s)+'">'+esc(s)+'</button>'
+    ).join('');
+
+    target.addEventListener('click', function(e){
+      const chip=e.target.closest('.callback-chip');
+      if(!chip)return;
+      const name=chip.dataset.service;
+      selected.has(name) ? selected.delete(name) : selected.add(name);
+      document.querySelectorAll('.callback-chip[data-service]').forEach(c=>{
+        c.classList.toggle('active',selected.has(c.dataset.service));
+        c.classList.toggle('selected',selected.has(c.dataset.service));
+      });
+      window.ARDHI_SELECTED_SERVICES=[...selected];
+      const hint=document.getElementById('callbackHint');
+      if(hint)hint.textContent=selected.size
+        ? 'Selected '+selected.size+' service'+(selected.size===1?'':'s')+'. Add your number, then tap Request.'
+        : 'Choose one or more services, then enter your phone number.';
+    }, {capture:true});
+  }
+})();
+</script>
+
+
+<script id="ardhi-contact-dropdown-final-js">
+(function(){
+  function closeMenus(except){
+    document.querySelectorAll('.contact-action.open').forEach(function(el){
+      if(el !== except) el.classList.remove('open');
+    });
+    document.querySelectorAll('.contact-action>button[aria-expanded="true"]').forEach(function(btn){
+      if(!except || !except.contains(btn)){
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  function toggleContact(button){
+    var wrap = button.closest('.contact-action');
+    if(!wrap) return;
+    var wasOpen = wrap.classList.contains('open');
+    closeMenus();
+    if(!wasOpen){
+      wrap.classList.add('open');
+      button.setAttribute('aria-expanded','true');
+    }
+  }
+
+  // Delegated handler: survives any existing scripts and works for
+  // dynamically rendered contact controls too.
+  document.addEventListener('click', function(e){
+    var button = e.target.closest('.contact-action>button');
+    if(button){
+      e.preventDefault();
+      e.stopPropagation();
+      toggleContact(button);
+      return;
+    }
+
+    if(!e.target.closest('.contact-action')){
+      closeMenus();
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeMenus();
+  });
+
+  // Touch devices: delegated click above handles normal taps; this also
+  // prevents an outer handler from immediately closing the menu.
+  document.addEventListener('touchend', function(e){
+    var button = e.target.closest('.contact-action>button');
+    if(button){
+      e.preventDefault();
+      e.stopPropagation();
+      toggleContact(button);
+    }
+  }, {passive:false, capture:true});
+
+  window.addEventListener('load', function(){
+    document.querySelectorAll('.contact-action>button').forEach(function(btn){
+      btn.setAttribute('aria-haspopup','menu');
+      if(!btn.hasAttribute('aria-expanded')) btn.setAttribute('aria-expanded','false');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
